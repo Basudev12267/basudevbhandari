@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Speed Tester</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    }
+
+    h1 {
+      margin-top: 20px;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .random-words {
+      font-size: 24px;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      font-size: 18px;
+      margin: 10px 0;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .results {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #555;
+    }
+
+    button {
+      background: #66a6ff;
+      color: white;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #89f7fe;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Typing Speed Tester</h1>
+  <div class="container">
+    <div id="startButton">
+      <button onclick="startTest()">Start Test</button>
+    </div>
+
+    <div id="testSection" style="display: none;">
+      <div class="random-words" id="randomWords"></div>
+      <input type="text" id="typedInput" placeholder="Start typing here..." oninput="checkTyping()">
+      <button onclick="endTest()">Submit</button>
+    </div>
+
+    <div id="resultSection" class="results"></div>
+  </div>
+
+  <div class="footer">Designed with ❤️ by Basudev Bhandari</div>
+
+  <script>
+    const wordList = [
+      "apple", "banana", "cherry", "date", "elephant", "flower", "grape", "honey",
+      "island", "jungle", "kite", "lemon", "mountain", "night", "ocean", "peach",
+      "queen", "river", "sunset", "tiger", "umbrella", "victory", "waterfall", "xylophone", 
+      "yesterday", "zebra"
+    ];
+    let selectedWords = [];
+    let startTime, endTime;
+    let typedInput = "";
+
+    function startTest() {
+      selectedWords = [];
+      for (let i = 0; i < 10; i++) {
+        const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+        selectedWords.push(randomWord);
+      }
+
+      document.getElementById("randomWords").innerText = selectedWords.join(" ");
+      document.getElementById("testSection").style.display = "block";
+      document.getElementById("startButton").style.display = "none";
+      document.getElementById("typedInput").value = "";
+      document.getElementById("resultSection").innerHTML = "";
+      startTime = new Date();
+    }
+
+    function checkTyping() {
+      typedInput = document.getElementById("typedInput").value.trim();
+    }
+
+    function endTest() {
+      endTime = new Date();
+      const totalTime = (endTime - startTime) / 1000; // Time in seconds
+      const typedWords = typedInput.split(" ");
+      const correctWords = selectedWords.filter((word, index) => word === typedWords[index]);
+      const accuracy = (correctWords.length / selectedWords.length) * 100;
+      const wpm = (typedWords.length / totalTime) * 60;
+
+      document.getElementById("resultSection").innerHTML = `
+        <p>Total Time: ${totalTime.toFixed(2)} seconds</p>
+        <p>Words Per Minute (WPM): ${wpm.toFixed(2)}</p>
+        <p>Accuracy: ${accuracy.toFixed(2)}%</p>
+      `;
+
+      document.getElementById("testSection").style.display = "none";
+      document.getElementById("startButton").style.display = "block";
+    }
+  </script>
+</body>
+</html>

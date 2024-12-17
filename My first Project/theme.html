@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Theme Generator</title>
+    <style>
+        /* General Body Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #6200ea;
+            color: white;
+            padding: 20px;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+        }
+
+        /* Theme Section Styling */
+        .theme-generator {
+            margin: 30px auto;
+            padding: 20px;
+            border: 2px solid #6200ea;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #6200ea;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        /* Footer Styling */
+        footer {
+            margin-top: 20px;
+            padding: 10px 0;
+            background-color: #6200ea;
+            color: white;
+            font-size: 1rem;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Theme generator </h1>
+    </header>
+
+    <!-- Theme Section -->
+    <section class="theme-generator">
+        <h2>Your Generated Theme</h2>
+        <p>Click the button below to generate a new theme.</p>
+        <button onclick="generateTheme()">Generate Theme</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with ❤️ by Basudev Bhandari</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function generateTheme() {
+            const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFC300', '#40E0D0', '#8A2BE2'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
+            alert('Theme color changed to: ' + randomColor);
+        }
+    </script>
+</body>
+</html>

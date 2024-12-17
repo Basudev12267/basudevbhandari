@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essay Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            color: #333;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #4a90e2;
+        }
+        .input-field {
+            margin: 20px 0;
+        }
+        input {
+            font-size: 1.2rem;
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .generate {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .generate:hover {
+            background: #357abd;
+        }
+        .essay {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin: 20px 0;
+            color: #555;
+            white-space: pre-wrap;
+            text-align: justify;
+        }
+        .not-found {
+            font-size: 1.5rem;
+            color: red;
+            margin: 20px 0;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #777;
+        }
+        .footer span {
+            color: #4a90e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Essay Generator</div>
+        <div class="input-field">
+            <input type="text" id="title" placeholder="Enter your essay title...">
+        </div>
+        <button class="generate" onclick="generateEssay()">Generate Essay</button>
+        <div class="essay" id="essay"></div>
+    </div>
+    <div class="footer">
+        Designed with <span>&hearts;</span> by Basudev Bhandari
+    </div>
+
+    <script>
+        const essays = {
+            "student life": `Student life is a golden period that lays the foundation for a person's future. This phase is characterized by learning, growth, and self-discovery. Students gain knowledge and skills that prepare them for life's challenges. Balancing academics and extracurricular activities is crucial to holistic development. Student life teaches discipline, time management, and perseverance. Friendships formed during this period often last a lifetime, and the values inculcated shape one's character. Despite the challenges of academic pressure, student life remains a cherished memory for its simplicity, joy, and transformative experiences.`,
+
+            "environment": `The environment is our planet's life-support system. It encompasses air, water, soil, flora, and fauna, forming a delicate balance that sustains life. Human activities, such as deforestation, pollution, and overexploitation of resources, threaten this balance. Climate change, rising temperatures, and loss of biodiversity are stark reminders of the urgent need for environmental conservation. Small steps, such as planting trees, reducing waste, and adopting renewable energy, can collectively make a significant impact. Protecting the environment is not just a responsibility but a necessity to ensure a habitable Earth for future generations.`,
+
+            "technology": `Technology has become an integral part of modern life, transforming the way we live, work, and communicate. Innovations in technology have revolutionized industries, improved healthcare, and enhanced education. However, the overreliance on technology poses challenges such as reduced face-to-face interactions and cybersecurity threats. While it offers immense benefits, ethical considerations are crucial to ensure responsible use. Technology should be a tool to bridge gaps, foster innovation, and create a better future rather than exacerbate inequalities or compromise privacy.`,
+
+            "education": `Education is the cornerstone of personal and societal development. It equips individuals with the knowledge, skills, and values needed to navigate life's complexities. Beyond academics, education fosters critical thinking, empathy, and a sense of responsibility. It is a powerful tool for breaking the cycle of poverty and promoting equality. Teachers, parents, and peers play a vital role in shaping a learner's journey. In a rapidly evolving world, lifelong learning and adaptability are essential to remain relevant and make meaningful contributions to society.`,
+
+            "health": `Health is the foundation of a fulfilling life. Physical, mental, and emotional well-being are interconnected and equally important. A balanced diet, regular exercise, and sufficient sleep are key to maintaining good health. Mental health, often overlooked, is vital for overall well-being. Stress, anxiety, and depression can have far-reaching effects on an individual's life. Cultivating healthy habits, seeking help when needed, and staying connected with loved ones can significantly improve one's quality of life. Health is indeed wealth, and prioritizing it leads to a happier, more productive existence.`,
+
+            "sports": `Sports are a celebration of physical prowess, teamwork, and determination. They teach valuable life lessons, including discipline, resilience, and the importance of hard work. Sports foster unity and bring people together, transcending cultural and linguistic barriers. Participation in sports promotes physical fitness and mental well-being, offering a healthy outlet for stress. Whether pursued professionally or recreationally, sports inspire individuals to strive for excellence and instill a sense of accomplishment. They are not just games but a way of life that shapes character and builds communities.`,
+
+            "science": `Science is the quest for knowledge and understanding of the natural world through observation and experimentation. It has been the driving force behind human progress, unlocking the mysteries of the universe and enabling remarkable technological advancements. From the invention of the wheel to the exploration of space, science has transformed every aspect of life. It fosters critical thinking, curiosity, and innovation, offering solutions to global challenges. However, ethical considerations are essential to ensure that scientific discoveries benefit humanity without causing harm. Science is not just a subject but a way of thinking that empowers us to make informed decisions and improve the world.`,
+
+            "art": `Art is the expression of creativity and imagination, transcending the barriers of language and culture. It reflects human emotions, thoughts, and perspectives, offering a window into different eras and societies. Whether through painting, music, dance, or literature, art enriches our lives and fosters empathy and understanding. It inspires and challenges us to see the world differently, igniting innovation and introspection. Art has the power to unite people, preserve history, and advocate for change. In a fast-paced world, it serves as a reminder of the beauty and complexity of human existence. Supporting and appreciating art is crucial to nurturing a well-rounded and vibrant society.`,
+
+            "travel": `Travel is the pursuit of discovery and adventure, broadening horizons and deepening understanding. It allows us to explore new cultures, landscapes, and traditions, fostering a sense of global connection and appreciation. Traveling enriches our perspective, offering insights into different ways of life and challenging preconceived notions. It provides an opportunity for relaxation, inspiration, and personal growth. However, responsible travel is essential to minimize environmental impact and respect local communities. Embracing sustainable practices ensures that future generations can experience the wonders of the world. Travel is not just a journey to destinations but a path to self-discovery and lifelong memories.`
+        };
+
+        function typeWriterEffect(text, element, speed) {
+            let i = 0;
+            element.innerHTML = ""; // Clear existing content
+            const interval = setInterval(() => {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, speed);
+        }
+
+        function generateEssay() {
+            const titleInput = document.getElementById('title').value.trim().toLowerCase();
+            const essayElement = document.getElementById('essay');
+
+            if (essays[titleInput]) {
+                typeWriterEffect(essays[titleInput], essayElement, 30); // Faster typing effect
+                essayElement.classList.remove('not-found');
+            } else {
+                essayElement.innerHTML = '<span class="not-found">Try next title</span>';
+            }
+        }
+    </script>
+</body>
+</html>

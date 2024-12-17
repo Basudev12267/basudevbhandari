@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Story Generator</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      color: #333;
+    }
+
+    h1 {
+      margin-top: 20px;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    #story {
+      font-size: 18px;
+      text-align: justify;
+      white-space: pre-wrap;
+      overflow: hidden;
+      height: auto;
+      line-height: 1.6;
+      margin: 20px 0;
+    }
+
+    button {
+      background: #66a6ff;
+      color: white;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #89f7fe;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Random Story Generator</h1>
+  <div class="container">
+    <div id="story"></div>
+    <button onclick="generateStory()">Generate Random Story</button>
+  </div>
+  <div class="footer">Designed with ❤️ by Basudev Bhandari</div>
+
+  <script>
+    // Array of random stories
+    const stories = [
+      "Once upon a time in a small village nestled at the edge of a dense forest, there lived a kind woodcutter named Arjun. He was known for his honesty and dedication to his craft. One day, he stumbled upon a golden axe shining under a ray of sunlight...",
+      "Long ago, in a kingdom surrounded by endless deserts, there was a mysterious well that granted a single wish to those brave enough to descend into its depths. One day, a poor farmer decided to risk everything to save his dying crops...",
+      "In the bustling city of Kambridge, a young inventor named Mira was on the verge of creating something extraordinary. Her invention could bring drawings to life, but it came with a cost—one she wasn't prepared to pay...",
+      "Deep under the ocean, there existed a hidden kingdom of merfolk ruled by Queen Coral. Her youngest daughter, Lyra, was obsessed with the surface world. One day, she found a strange artifact: a compass that pointed not north but to her destiny...",
+      "High in the Himalayan mountains, there was a secluded monastery guarded by ancient monks who preserved the secret to eternal happiness. A skeptical traveler named Ravi, searching for meaning in his life, stumbled upon it after a dangerous avalanche...",
+      // Add more stories here...
+    ];
+
+    let currentStoryIndex = -1;
+
+    // Typewriter effect
+    function typeWriterEffect(text, element, speed = 50) {
+      element.innerHTML = "";
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        }
+      }
+      type();
+    }
+
+    // Generate a random story
+    function generateStory() {
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * stories.length);
+      } while (randomIndex === currentStoryIndex); // Ensure new story every time
+
+      currentStoryIndex = randomIndex;
+      const storyText = stories[randomIndex];
+      const storyElement = document.getElementById("story");
+
+      // Use typewriter effect to display the story
+      typeWriterEffect(storyText, storyElement);
+    }
+
+    // Generate the first story on page load
+    generateStory();
+  </script>
+</body>
+</html>

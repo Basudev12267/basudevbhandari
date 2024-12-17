@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    }
+
+    h1 {
+      margin-top: 20px;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-group {
+      margin: 15px 0;
+    }
+
+    label {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #66a6ff;
+      color: white;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #89f7fe;
+    }
+
+    #qrCode {
+      margin: 20px 0;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>QR Code Generator</h1>
+  <div class="container">
+    <div class="form-group">
+      <label for="dataType">Select Data Type:</label>
+      <select id="dataType">
+        <option value="text">Text</option>
+        <option value="url">URL</option>
+        <option value="contact">Contact Details</option>
+      </select>
+    </div>
+    <div class="form-group" id="inputField">
+      <label for="dataInput">Enter Text or URL:</label>
+      <input type="text" id="dataInput" placeholder="Enter your text here">
+    </div>
+    <div class="form-group" id="contactFields" style="display: none;">
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Enter Name">
+      <label for="phone">Phone:</label>
+      <input type="text" id="phone" placeholder="Enter Phone Number">
+      <label for="email">Email:</label>
+      <input type="text" id="email" placeholder="Enter Email Address">
+    </div>
+    <button onclick="generateQRCode()">Generate QR Code</button>
+    <div id="qrCode"></div>
+    <button onclick="downloadQRCode()">Download QR Code</button>
+  </div>
+  <div class="footer">Designed with ❤️ by Basudev Bhandari</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    const dataType = document.getElementById('dataType');
+    const inputField = document.getElementById('inputField');
+    const contactFields = document.getElementById('contactFields');
+    const qrCodeDiv = document.getElementById('qrCode');
+
+    // Show/Hide fields based on the selected data type
+    dataType.addEventListener('change', () => {
+      const selectedType = dataType.value;
+      if (selectedType === 'contact') {
+        inputField.style.display = 'none';
+        contactFields.style.display = 'block';
+      } else {
+        inputField.style.display = 'block';
+        contactFields.style.display = 'none';
+      }
+    });
+
+    function generateQRCode() {
+      let data = '';
+      if (dataType.value === 'text' || dataType.value === 'url') {
+        data = document.getElementById('dataInput').value;
+      } else if (dataType.value === 'contact') {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+        data = `MECARD:N:${name};TEL:${phone};EMAIL:${email};;`;
+      }
+
+      if (!data) {
+        alert('Please enter valid data!');
+        return;
+      }
+
+      qrCodeDiv.innerHTML = ''; // Clear previous QR code
+      QRCode.toCanvas(qrCodeDiv, data, { width: 200 }, (error) => {
+        if (error) console.error(error);
+      });
+    }
+
+    function downloadQRCode() {
+      const canvas = qrCodeDiv.querySelector('canvas');
+      if (!canvas) {
+        alert('Generate a QR code first!');
+        return;
+      }
+
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'qrcode.png';
+      link.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Color Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f7f7f7;
+      text-align: center;
+    }
+    .game-container {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+    .timer {
+      font-size: 30px;
+      color: #333;
+    }
+    .score {
+      font-size: 20px;
+      color: #333;
+    }
+    .color-button {
+      margin: 10px;
+      padding: 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      width: 150px;
+      height: 50px;
+    }
+    .footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+    }
+    .title {
+      font-size: 24px;
+      color: #ff6347;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .color-display {
+      font-size: 30px;
+      margin: 20px;
+      padding: 20px;
+      font-weight: bold;
+    }
+    .result {
+      font-size: 25px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="game-container">
+  <div class="title">Guess the Color Game</div>
+  <div class="timer" id="timer">15</div>
+  <div class="score" id="score">Score: 0</div>
+  <div id="color-options"></div>
+  <div id="color-display" class="color-display"></div>
+  <div id="result" class="result"></div>
+</div>
+
+<div class="footer">
+  <p>Made with ❤️ by Basudev Bhandari</p>
+</div>
+
+<script>
+  let score = 0;
+  let timer = 15;
+  let targetColor;
+  let colorOptions = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "cyan", "lime"];
+  let timerInterval;
+  let userGuess = null; // To store user's guess
+  
+  // Start the game
+  function startGame() {
+    score = 0;
+    timer = 15;
+    userGuess = null;
+    document.getElementById('score').textContent = "Score: " + score;
+    document.getElementById('timer').textContent = timer;
+    document.getElementById('color-display').textContent = ''; // Clear any displayed color
+    document.getElementById('result').textContent = ''; // Clear result message
+    generateColorOptions(); // Show color options
+
+    // Start the timer countdown
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(countdownTimer, 1000);
+  }
+
+  // Countdown timer function
+  function countdownTimer() {
+    timer--;
+    document.getElementById('timer').textContent = timer;
+    if (timer <= 0) {
+      clearInterval(timerInterval);
+      displayColor(); // Show the color after time is up
+    }
+  }
+
+  // Function to generate random color options
+  function generateColorOptions() {
+    const colorContainer = document.getElementById('color-options');
+    colorContainer.innerHTML = ''; // Clear previous options
+
+    // Randomly select 3 color options
+    let options = [];
+    while (options.length < 3) {
+      const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+      if (!options.includes(color)) options.push(color);
+    }
+
+    // Choose a random color to display after 15 seconds
+    targetColor = options[Math.floor(Math.random() * options.length)];
+
+    // Display the color options as buttons
+    options.forEach(color => {
+      const button = document.createElement('button');
+      button.classList.add('color-button');
+      button.style.backgroundColor = color;
+      button.onclick = function () {
+        userGuess = color; // Store the user's guess
+      };
+      button.textContent = color.charAt(0).toUpperCase() + color.slice(1); // Capitalize first letter
+      colorContainer.appendChild(button);
+    });
+  }
+
+  // Display the target color after 15 seconds
+  function displayColor() {
+    document.getElementById('color-display').textContent = `The color is: ${targetColor}`;
+    document.body.style.backgroundColor = targetColor; // Change background to target color
+    checkMatch(); // Check if the user guessed correctly
+  }
+
+  // Check if the user guessed the correct color
+  function checkMatch() {
+    const resultMessage = document.getElementById('result');
+    if (userGuess === targetColor) {
+      score++;
+      document.getElementById('score').textContent = "Score: " + score;
+      resultMessage.textContent = "You are correct!";
+      resultMessage.style.color = "green";
+    } else {
+      resultMessage.textContent = "Incorrect. Try again!";
+      resultMessage.style.color = "red";
+    }
+
+    // Restart the game after a brief delay
+    setTimeout(startGame, 2000); // Restart game after 2 seconds
+  }
+
+  // Start the game when the page loads
+  startGame();
+</script>
+
+</body>
+</html>

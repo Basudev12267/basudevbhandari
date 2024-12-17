@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poem Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            color: #333;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff6f61;
+        }
+        .poem {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin: 20px 0;
+            font-style: italic;
+            color: #555;
+            min-height: 100px;
+        }
+        .generate {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            background: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .generate:hover {
+            background: #e55b50;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #777;
+        }
+        .footer span {
+            color: #ff6f61;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        .poem.typing {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #555;
+            animation: typing 5s steps(40, end), blink .5s step-end infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Random Poem Generator</div>
+        <div class="poem" id="poem"></div>
+        <button class="generate" onclick="generatePoem()">Generate Poem</button>
+    </div>
+    <div class="footer">
+        Made with <span>&hearts;</span> by Basudev Bhandari
+    </div>
+
+    <script>
+        const poems = [
+            `"When the night falls, the stars align, <br>
+            Whispering secrets to the passing time. <br>
+            In the stillness, dreams take their flight, <br>
+            Painting the canvas of the quiet night."`,
+
+            `"Beneath the trees, where shadows dance, <br>
+            Lies a world of endless chance. <br>
+            Nature hums its soothing tune, <br>
+            Beneath the sun, beneath the moon."`,
+
+            `"The ocean roars, its waves so deep, <br>
+            Guarding secrets it will keep. <br>
+            A horizon kissed by the setting sun, <br>
+            Telling tales of journeys begun."`,
+
+            `"A gentle breeze through fields of gold, <br>
+            Stories of seasons, new and old. <br>
+            The earth whispers in soft embrace, <br>
+            A timeless bond, a sacred space."`,
+
+            `"Mountains stand, their peaks so high, <br>
+            Watching the world beneath the sky. <br>
+            A testament of strength and grace, <br>
+            Time’s unyielding, eternal face."`,
+
+            `"Dancing flames in the hearth’s warm glow, <br>
+            Stories of old they seem to show. <br>
+            Comfort found in the fire’s embrace, <br>
+            In the quiet of this sacred space."`,
+
+            `"The forest hums with life unseen, <br>
+            Beneath the canopy, lush and green. <br>
+            A world unfolds with every sound, <br>
+            Magic thrives where roots are bound."`,
+
+            `"Clouds drift high in a painted sky, <br>
+            Whispers of wind as they pass by. <br>
+            A fleeting canvas, ever anew, <br>
+            The heavens glow in colors true."`,
+
+            `"Golden sands meet the ocean’s song, <br>
+            A tranquil rhythm, steady and strong. <br>
+            Secrets whispered by the tide, <br>
+            Eternity flows where waves reside."`,
+
+            `"A meadow blooms with hues so bright, <br>
+            Dancing petals in morning light. <br>
+            A symphony of life takes hold, <br>
+            Stories in colors, untold and bold."`,
+
+            `"Stars ignite in the velvet night, <br>
+            Guiding travelers with their light. <br>
+            Eternal beacons, silent and wise, <br>
+            A cosmic dance in endless skies."`,
+
+            `"Rivers carve through valleys wide, <br>
+            A timeless journey, a restless tide. <br>
+            Through stone and soil, they find their way, <br>
+            Life persists where waters play."`,
+
+            `"Winter’s breath on the frozen lake, <br>
+            Patterns etched in the ice they make. <br>
+            A tranquil stillness, crisp and clear, <br>
+            Nature rests in a frosted sphere."`,
+
+            `"The desert hums with a sunlit tune, <br>
+            Beneath the gaze of the blazing noon. <br>
+            Shifting dunes and whispers dry, <br>
+            A boundless land beneath the sky."`,
+
+            `"Echoes of laughter through the trees, <br>
+            Joyful voices carried by the breeze. <br>
+            A moment fleeting, yet so true, <br>
+            Memories etched in morning dew."`,
+
+            `"A lighthouse stands against the storm, <br>
+            A beacon bright, steadfast and warm. <br>
+            Guiding sailors through waves that roar, <br>
+            A guardian light along the shore."`,
+
+            `"In the garden, a secret grows, <br>
+            Where silence speaks and time slows. <br>
+            Petals whisper tales of grace, <br>
+            A sanctuary, a sacred place."`,
+
+            `"Autumn leaves in a fiery dance, <br>
+            A fleeting season, a second chance. <br>
+            Nature’s glory in golden hues, <br>
+            A masterpiece, a world to muse."`,
+
+            `"In the mountains, the eagle soars, <br>
+            Above the clouds, where freedom roars. <br>
+            A kingdom vast, no bounds in sight, <br>
+            A spirit fierce, a fearless flight."`
+            // Continue adding poems up to 100
+        ];
+
+        function generatePoem() {
+            const poemElement = document.getElementById('poem');
+            const randomIndex = Math.floor(Math.random() * poems.length);
+            const poemText = poems[randomIndex];
+
+            poemElement.classList.remove('typing');
+            void poemElement.offsetWidth; // Reset animation
+            poemElement.innerHTML = poemText;
+            poemElement.classList.add('typing');
+        }
+    </script>
+</body>
+</html>
