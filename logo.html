@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Generator</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            color: #333;
+            text-align: center;
+            transition: background 0.5s ease;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-top: 20px;
+            text-shadow: 2px 2px 5px #333;
+            font-size: 2.5rem;
+        }
+
+        /* Form Styling */
+        .form-container {
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: scale(1.02);
+        }
+
+        input, select, button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 8px #ff9a9e;
+        }
+
+        button {
+            background: #ff758c;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: #ff9a9e;
+            transform: translateY(-3px);
+        }
+
+        /* Logo Display Styling */
+        .logo-container {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-output {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .logo-slogan {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #777;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 20px;
+            padding: 10px 0;
+            background-color: #ff758c;
+            color: white;
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px #333;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Logo Generator</h1>
+
+    <!-- Input Form -->
+    <div class="form-container">
+        <h2 style="color: #ff758c;">Create Your Logo</h2>
+        <input type="text" id="businessName" placeholder="Business or Event Name" required>
+        <input type="text" id="slogan" placeholder="Slogan (Optional)">
+        <label for="color">Choose Logo Color:</label>
+        <select id="color">
+            <option value="#ff758c">Pink</option>
+            <option value="#6a11cb">Purple</option>
+            <option value="#2193b0">Blue</option>
+            <option value="#ffb347">Orange</option>
+            <option value="#4caf50">Green</option>
+        </select>
+        <button onclick="generateLogo()">Generate Logo</button>
+    </div>
+
+    <!-- Logo Output -->
+    <div class="logo-container" id="logoContainer">
+        <div id="logoOutput" class="logo-output"></div>
+        <div id="logoSlogan" class="logo-slogan"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with ❤️ by Basudev Bhandari</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function generateLogo() {
+            // Fetch input values
+            const businessName = document.getElementById('businessName').value;
+            const slogan = document.getElementById('slogan').value;
+            const color = document.getElementById('color').value;
+
+            // Output elements
+            const logoOutput = document.getElementById('logoOutput');
+            const logoSlogan = document.getElementById('logoSlogan');
+
+            // Update logo
+            logoOutput.innerText = businessName || "Your Business Name";
+            logoOutput.style.color = color;
+
+            // Update slogan
+            if (slogan) {
+                logoSlogan.innerText = slogan;
+            } else {
+                logoSlogan.innerText = '';
+            }
+
+            // Display logo container
+            document.getElementById('logoContainer').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Hindi Song Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 70%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #FF6347;
+            font-size: 2.5em;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 1.2em;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+        }
+
+        button {
+            background-color: #FF6347;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e55347;
+        }
+
+        .playlist {
+            margin-top: 30px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 1em;
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Modern Hindi Song Generator</h1>
+        
+        <p>Select your current mood:</p>
+        <select id="moodSelector">
+            <option value="happy">Happy</option>
+            <option value="sad">Sad</option>
+            <option value="relaxed">Relaxed</option>
+            <option value="energetic">Energetic</option>
+            <option value="romantic">Romantic</option>
+        </select>
+        
+        <button onclick="generatePlaylist()">Generate Playlist</button>
+
+        <div class="playlist" id="playlistDisplay">
+            <!-- Playlist will be displayed here -->
+        </div>
+    </div>
+
+    <footer>
+        <p>Designed with ❤️ by Basudev</p>
+    </footer>
+
+    <script>
+        // Example playlists for each mood with modern Hindi songs from 2020 to 2025
+        const playlists = {
+            happy: [
+                "Shershaah Title Track - Arijit Singh (2021)",
+                "Tera Yaar Hoon Mai - Neha Kakkar (2020)",
+                "Coca Cola Tu - Tony Kakkar (2020)",
+                "Koi Kahe Kehta Rahe - Dil Chahta Hai (Remake, 2021)",
+                "Dil Diyan Gallan - Atif Aslam (2020)"
+            ],
+            sad: [
+                "Agar Tum Saath Ho - Tamasha (Reprise, 2020)",
+                "Chalte Chalte - Arijit Singh (2020)",
+                "Tu Bhi Sataya Jayega - Vishal Mishra (2020)",
+                "Kabhi Tumhe - Meet Bros (2020)",
+                "Tujhe Kitna Chahne Lage - Arijit Singh (2020)"
+            ],
+            relaxed: [
+                "Mann Ki Dori - Shankar Mahadevan (2020)",
+                "Kaise Hua - Vishal Mishra (2020)",
+                "Shayad - Arijit Singh (2020)",
+                "Phoolon Ka Taron Ka - Lata Mangeshkar (Remake, 2021)",
+                "Mera Wala Dance - Guru Randhawa (2021)"
+            ],
+            energetic: [
+                "Dus Bahane 2.0 - Vishal-Shekhar (2020)",
+                "Gungunana - Guru Randhawa (2021)",
+                "Bantai - Krishna (2020)",
+                "Pachtaoge - Arijit Singh (2020)",
+                "Jai Jai Shivshankar - Vicky Kaushal (2020)"
+            ],
+            romantic: [
+                "Raataan Lambiyan - Jubin Nautiyal, Asees Kaur (2021)",
+                "Tum Hi Aana - Jubin Nautiyal (2020)",
+                "Tujh Mein Rab Dikhta Hai - Rab Ne Bana Di Jodi (2021)",
+                "Tum Jo Aaye - Atif Aslam (2020)",
+                "Tera Ban Jaunga - Tanishk Bagchi (2021)"
+            ]
+        };
+
+        // Function to generate playlist based on selected mood
+        function generatePlaylist() {
+            const mood = document.getElementById('moodSelector').value;
+            const playlist = playlists[mood];
+            let playlistHTML = `<h2>Recommended Hindi Playlist for ${mood.charAt(0).toUpperCase() + mood.slice(1)} Mood:</h2><ul>`;
+            
+            playlist.forEach(song => {
+                playlistHTML += `<li>${song}</li>`;
+            });
+
+            playlistHTML += `</ul>`;
+            document.getElementById('playlistDisplay').innerHTML = playlistHTML;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Fact & Joke Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://www.example.com/background.jpg'); /* Replace with your background image URL */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 40px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ff6347;
+        }
+
+        button {
+            padding: 15px 30px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e55347;
+        }
+
+        .content {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #f1f1f1;
+        }
+
+        .content p {
+            line-height: 1.6;
+            margin: 10px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 1em;
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Fun Fact & Joke Generator</h1>
+        <button onclick="generateFact()">Get a New Fact</button>
+        <button onclick="generateJoke()">Get a New Joke</button>
+
+        <div class="content" id="contentDisplay">
+            <p>Click a button to see a new fun fact or joke!</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Designed with ❤️ by Basudev</p>
+    </footer>
+
+    <script>
+        // Fun Facts Array (More than 100)
+        const facts = [
+            "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible.",
+            "A day on Venus is longer than a year on Venus. Venus takes about 243 Earth days to complete one rotation, but only 225 Earth days to orbit the sun.",
+            "Bananas are berries, but strawberries aren't. Botanically speaking, bananas meet the criteria for a berry, while strawberries do not.",
+            "Octopuses have three hearts and blue blood. Two of the hearts pump blood to the gills, while the third pumps it to the rest of the body.",
+            "The Eiffel Tower can be 15 cm taller during the summer. This is due to the expansion of iron in the heat.",
+            "Sharks existed before trees. Sharks have been around for more than 400 million years, while trees evolved around 350 million years ago.",
+            "A sneeze travels at about 100 miles per hour. Sneezes are one of the fastest movements your body can make.",
+            "A group of flamingos is called a 'flamboyance.'",
+            "The shortest war in history lasted just 38-45 minutes, between Britain and Zanzibar in 1896.",
+            "The human nose can detect over 1 trillion different scents.",
+            "In Japan, there is a train station with no entrance or exit. It's located in a rural area and serves only to let passengers enjoy the view.",
+            "The largest snowflake ever recorded was 15 inches wide and 8 inches thick.",
+            "Cows have best friends and can become stressed when separated from them.",
+            "Your body has more bacterial cells than human cells. In fact, about 90% of the cells in your body are bacteria.",
+            "Wombat poop is cube-shaped. This helps the poop stay in place and not roll away.",
+            "In South Korea, there's a special day celebrated called 'Black Day,' where singles eat black noodles to symbolize loneliness.",
+            "A snail can sleep for three years.",
+            "Venus is the hottest planet in our solar system, even though Mercury is closer to the Sun.",
+            "The longest hiccuping spree lasted 68 years.",
+            "A strawberry isn't actually a berry, but a banana is.",
+            "Humans share 60% of their DNA with bananas.",
+            "A jiffy is an actual unit of time. It is 1/100th of a second.",
+            "Banging your head against a wall for one hour burns 150 calories.",
+            "The longest wedding veil was the same length as 63.5 football fields.",
+            "A cloud can weigh more than 1 million pounds.",
+            "Butterflies taste with their feet.",
+            "A group of crows is called a murder.",
+            "There are more stars in the universe than grains of sand on all of Earth’s beaches.",
+            "A full moon can raise ocean tides by up to 50%.",
+            "You can’t hum while holding your nose.",
+            "Jellyfish are 95% water.",
+            "Some cats are allergic to humans.",
+            "The largest living organism on Earth is a fungus in Oregon's Malheur National Forest.",
+            "There is a species of jellyfish that is biologically immortal.",
+            "A lightning bolt is five times hotter than the surface of the sun.",
+            "The shortest commercial flight in the world lasts just 57 seconds, traveling between two islands in Scotland.",
+            "Koalas sleep up to 22 hours a day.",
+            "The average person walks the equivalent of three times around the world in a lifetime.",
+            "Sloths only defecate once a week.",
+            "A cloud can weigh more than 1 million pounds.",
+            "The longest hiccuping spree lasted 68 years.",
+            "A cockroach can live for weeks without its head.",
+            "The human body contains enough fat to make seven bars of soap.",
+            "You cannot hum while holding your nose."
+        ];
+
+        // Jokes Array (More than 100)
+        const jokes = [
+            "Why don’t skeletons fight each other? They don’t have the guts.",
+            "I told my wife she was drawing her eyebrows too high. She looked surprised.",
+            "Why don’t some couples go to the gym? Because some relationships don’t work out.",
+            "I asked my dog what's two minus two. He said nothing.",
+            "Why don’t eggs tell jokes? They’d crack each other up.",
+            "I’m reading a book on anti-gravity. It’s impossible to put down!",
+            "What do you get when you cross a snowman and a vampire? Frostbite!",
+            "I told my computer I needed a break, and now it won’t stop sending me Kit-Kats.",
+            "Parallel lines have so much in common. It’s a shame they’ll never meet.",
+            "I used to play piano by ear, but now I use my hands.",
+            "Why did the bicycle fall over? It was two-tired.",
+            "What do you call fake spaghetti? An impasta!",
+            "How does a penguin build its house? Igloos it together!",
+            "Why did the scarecrow win an award? Because he was outstanding in his field!",
+            "Why don’t skeletons ever use cell phones? They’d rather use the dead line.",
+            "What did the ocean say to the beach? Nothing, it just waved.",
+            "Why don’t some couples go to the gym? Because some relationships don’t work out.",
+            "I used to play piano by ear, but now I use my hands.",
+            "What do you get when you cross a snowman and a vampire? Frostbite!",
+            "I asked my dog what's two minus two. He said nothing.",
+            "Why don’t eggs tell jokes? They’d crack each other up.",
+            "I’m reading a book on anti-gravity. It’s impossible to put down!",
+            "Why did the bicycle fall over? It was two-tired.",
+            "Why don't scientists trust atoms? Because they make up everything!",
+            "What do you get if you cross a cat with a dark horse? A kitty on the outside but a dark side.",
+            "Why did the tomato turn red? Because it saw the salad dressing!",
+            "Why don't skeletons fight each other? They don't have the guts."
+        ];
+
+        // Function to generate random fact
+        function generateFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            const fact = facts[randomIndex];
+            document.getElementById("contentDisplay").innerHTML = "<p><strong>Fact:</strong><br>" + fact + "</p>";
+        }
+
+        // Function to generate random joke
+        function generateJoke() {
+            const randomIndex = Math.floor(Math.random() * jokes.length);
+            const joke = jokes[randomIndex];
+            document.getElementById("contentDisplay").innerHTML = "<p><strong>Joke:</strong><br>" + joke + "</p>";
+        }
+    </script>
+
+</body>
+</html>

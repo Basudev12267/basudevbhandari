@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+
+        label, select, input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            select, input, button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Unit Converter</h1>
+
+        <label for="unitType">Select Unit Type:</label>
+        <select id="unitType" onchange="updateUnitOptions()">
+            <option value="length">Length</option>
+            <option value="temperature">Temperature</option>
+            <option value="weight">Weight</option>
+        </select>
+
+        <label for="fromValue">Enter Value:</label>
+        <input type="number" id="fromValue" placeholder="Enter value" />
+
+        <label for="fromUnit">From Unit:</label>
+        <select id="fromUnit"></select>
+
+        <label for="toUnit">To Unit:</label>
+        <select id="toUnit"></select>
+
+        <button onclick="convertUnit()">Convert</button>
+
+        <div id="result" class="result"></div>
+
+        <footer>
+            Made with ❤️ by <a href="https://www.basudevbhandari.com" target="_blank">Basudev Bhandari</a>
+        </footer>
+    </div>
+
+    <script>
+        const unitOptions = {
+            length: ['cm', 'm', 'km', 'mm'],
+            temperature: ['Celsius', 'Fahrenheit', 'Kelvin'],
+            weight: ['grams', 'kilograms', 'pounds', 'ounces']
+        };
+
+        function updateUnitOptions() {
+            const unitType = document.getElementById("unitType").value;
+            const fromUnitSelect = document.getElementById("fromUnit");
+            const toUnitSelect = document.getElementById("toUnit");
+
+            // Clear existing options
+            fromUnitSelect.innerHTML = '';
+            toUnitSelect.innerHTML = '';
+
+            // Add new options based on selected unit type
+            unitOptions[unitType].forEach(unit => {
+                const fromOption = new Option(unit, unit);
+                const toOption = new Option(unit, unit);
+
+                fromUnitSelect.add(fromOption);
+                toUnitSelect.add(toOption);
+            });
+        }
+
+        function convertUnit() {
+            const unitType = document.getElementById("unitType").value;
+            const fromValue = parseFloat(document.getElementById("fromValue").value);
+            const fromUnit = document.getElementById("fromUnit").value;
+            const toUnit = document.getElementById("toUnit").value;
+
+            let result;
+
+            if (!fromValue || !fromUnit || !toUnit) {
+                alert("Please fill all the fields correctly!");
+                return;
+            }
+
+            if (unitType === "length") {
+                result = convertLength(fromValue, fromUnit, toUnit);
+            } else if (unitType === "temperature") {
+                result = convertTemperature(fromValue, fromUnit, toUnit);
+            } else if (unitType === "weight") {
+                result = convertWeight(fromValue, fromUnit, toUnit);
+            }
+
+            document.getElementById("result").textContent = result || "Invalid conversion.";
+        }
+
+        function convertLength(value, fromUnit, toUnit) {
+            const lengthUnits = {
+                "cm": 0.01,      // 1 cm = 0.01 m
+                "m": 1,          // 1 m = 1 m
+                "km": 1000,      // 1 km = 1000 m
+                "mm": 0.001      // 1 mm = 0.001 m
+            };
+
+            if (lengthUnits[fromUnit] && lengthUnits[toUnit]) {
+                // Convert from selected unit to meters first, then convert to the target unit
+                const valueInMeters = value * lengthUnits[fromUnit];
+                return valueInMeters / lengthUnits[toUnit] + " " + toUnit;
+            } else {
+                return null;
+            }
+        }
+
+        function convertTemperature(value, fromUnit, toUnit) {
+            if (fromUnit === "Celsius" && toUnit === "Fahrenheit") {
+                return (value * 9/5) + 32 + " °F";
+            } else if (fromUnit === "Fahrenheit" && toUnit === "Celsius") {
+                return (value - 32) * 5/9 + " °C";
+            } else if (fromUnit === "Celsius" && toUnit === "Kelvin") {
+                return value + 273.15 + " K";
+            } else if (fromUnit === "Kelvin" && toUnit === "Celsius") {
+                return value - 273.15 + " °C";
+            } else if (fromUnit === "Fahrenheit" && toUnit === "Kelvin") {
+                return ((value - 32) * 5/9) + 273.15 + " K";
+            } else if (fromUnit === "Kelvin" && toUnit === "Fahrenheit") {
+                return ((value - 273.15) * 9/5) + 32 + " °F";
+            } else {
+                return null;
+            }
+        }
+
+        function convertWeight(value, fromUnit, toUnit) {
+            const weightUnits = {
+                "grams": 1,
+                "kilograms": 1000,
+                "pounds": 453.592,
+                "ounces": 28.3495
+            };
+
+            if (weightUnits[fromUnit] && weightUnits[toUnit]) {
+                // Convert weight using the appropriate units
+                return (value * weightUnits[toUnit]) / weightUnits[fromUnit] + " " + toUnit;
+            } else {
+                return null;
+            }
+        }
+
+        // Initialize unit options on page load
+        updateUnitOptions();
+    </script>
+</body>
+</html>

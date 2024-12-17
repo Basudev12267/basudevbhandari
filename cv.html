@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator</title>
+    <style>
+        /* General Body Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            color: #333;
+            text-align: center;
+            transition: background 0.5s ease;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-top: 20px;
+            text-shadow: 2px 2px 5px #000000;
+            font-size: 2.5rem;
+        }
+
+        /* Form Container Styling */
+        .form-container {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        input, textarea, button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #6dd5ed;
+            outline: none;
+            box-shadow: 0 0 10px rgba(109, 213, 237, 0.7);
+        }
+
+        button {
+            background: linear-gradient(to right, #2193b0, #6dd5ed);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            transform: translateY(-3px);
+        }
+
+        /* Resume Container Styling */
+        .resume-container {
+            display: none;
+            margin: 20px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 700px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .resume-container:hover {
+            transform: scale(1.01);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .resume-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2193b0;
+        }
+
+        .resume-header h2 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .resume-header p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .resume-section h3 {
+            margin: 10px 0 5px;
+            color: #6dd5ed;
+        }
+
+        .resume-section p {
+            margin: 0 0 10px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Footer Styling */
+        footer {
+            margin-top: 30px;
+            padding: 10px 0;
+            background-color: #2193b0;
+            color: white;
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resume Generator</h1>
+
+    <!-- Input Form -->
+    <div class="form-container">
+        <h2 style="color: #2193b0;">Enter Your Details</h2>
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="text" id="email" placeholder="Email" required>
+        <input type="text" id="phone" placeholder="Phone Number" required>
+        <textarea id="summary" rows="3" placeholder="Professional Summary"></textarea>
+        <input type="text" id="skills" placeholder="Skills (comma separated)">
+        <textarea id="experience" rows="3" placeholder="Work Experience"></textarea>
+        <textarea id="education" rows="3" placeholder="Education"></textarea>
+        <button onclick="generateResume()">Generate Resume</button>
+    </div>
+
+    <!-- Resume Output -->
+    <div class="resume-container" id="resume">
+        <div class="resume-header">
+            <h2 id="output-name"></h2>
+            <p id="output-email"></p>
+            <p id="output-phone"></p>
+        </div>
+        <div class="resume-section">
+            <h3>Professional Summary</h3>
+            <p id="output-summary"></p>
+        </div>
+        <div class="resume-section">
+            <h3>Skills</h3>
+            <p id="output-skills"></p>
+        </div>
+        <div class="resume-section">
+            <h3>Work Experience</h3>
+            <p id="output-experience"></p>
+        </div>
+        <div class="resume-section">
+            <h3>Education</h3>
+            <p id="output-education"></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with ❤️ by Basudev Bhandari</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function generateResume() {
+            // Fetch input values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const summary = document.getElementById('summary').value;
+            const skills = document.getElementById('skills').value;
+            const experience = document.getElementById('experience').value;
+            const education = document.getElementById('education').value;
+
+            // Assign values to resume sections
+            document.getElementById('output-name').innerText = name;
+            document.getElementById('output-email').innerText = email;
+            document.getElementById('output-phone').innerText = phone;
+            document.getElementById('output-summary').innerText = summary;
+            document.getElementById('output-skills').innerText = skills;
+            document.getElementById('output-experience').innerText = experience;
+            document.getElementById('output-education').innerText = education;
+
+            // Display resume
+            document.getElementById('resume').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

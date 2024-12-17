@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .quiz-container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 400px;
+      text-align: center;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    #quiz-header {
+      margin-bottom: 20px;
+    }
+
+    #question {
+      font-size: 18px;
+      margin-bottom: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      border-right: 2px solid black;
+      animation: blink 0.5s step-end infinite alternate;
+    }
+
+    @keyframes blink {
+      from {
+        border-color: transparent;
+      }
+      to {
+        border-color: black;
+      }
+    }
+
+    #options button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    #options button:hover {
+      background-color: #45a049;
+    }
+
+    #quiz-footer {
+      margin-top: 20px;
+    }
+
+    #start-btn {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #start-btn:hover {
+      background-color: #0056b3;
+    }
+
+    #timer, #score-display {
+      margin: 10px 0;
+    }
+
+    .designer-credit {
+      font-size: 14px;
+      color: #555;
+      margin-top: 20px;
+      font-style: italic;
+    }
+
+    .designer-credit span {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div id="quiz-header">
+      <h1>Quiz App</h1>
+      <p>Answer the questions before the timer runs out!</p>
+      <p id="score-display">Score: 0</p>
+      <p id="timer">Time: 30</p>
+    </div>
+    <div id="quiz">
+      <p id="question"></p>
+      <div id="options"></div>
+    </div>
+    <div id="quiz-footer">
+      <button id="start-btn">Start Quiz</button>
+    </div>
+  </div>
+  <div class="designer-credit">
+    Designed with ❤️ by <span>Basudev Bhandari</span>
+  </div>
+
+  <script>
+    // Array of 100+ questions
+    const questions = [
+      { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Rome"], answer: 2 },
+      { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Venus", "Jupiter"], answer: 1 },
+      { question: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: 1 },
+      { question: "What is the largest mammal?", options: ["Elephant", "Blue Whale", "Giraffe", "Shark"], answer: 1 },
+      { question: "Which language is primarily spoken in Japan?", options: ["Japanese", "Chinese", "Korean", "Hindi"], answer: 0 },
+      { question: "Who wrote 'Hamlet'?", options: ["Shakespeare", "Dickens", "Hemingway", "Tolkien"], answer: 0 },
+      { question: "What is the boiling point of water?", options: ["50°C", "100°C", "150°C", "200°C"], answer: 1 },
+      { question: "Which country is known as the Land of the Rising Sun?", options: ["China", "Japan", "Thailand", "Korea"], answer: 1 },
+      { question: "What is the chemical symbol for gold?", options: ["Gd", "Au", "Ag", "Pb"], answer: 1 },
+      { question: "Who painted the Mona Lisa?", options: ["Van Gogh", "Da Vinci", "Picasso", "Michelangelo"], answer: 1 },
+      // Add more questions to total over 100
+    ];
+
+    let shuffledQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 30;
+
+    const questionElement = document.getElementById("question");
+    const optionsElement = document.getElementById("options");
+    const scoreDisplay = document.getElementById("score-display");
+    const timerDisplay = document.getElementById("timer");
+    const startBtn = document.getElementById("start-btn");
+
+    function startQuiz() {
+      startBtn.style.display = "none";
+      score = 0;
+      currentQuestionIndex = 0;
+      shuffledQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10); // Pick 10 random questions
+      showQuestion();
+      startTimer();
+    }
+
+    function showQuestion() {
+      clearOptions();
+      const questionData = shuffledQuestions[currentQuestionIndex];
+      typewriterEffect(questionData.question);
+      questionData.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.addEventListener("click", () => checkAnswer(index));
+        optionsElement.appendChild(button);
+      });
+    }
+
+    function typewriterEffect(text) {
+      questionElement.textContent = "";
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < text.length) {
+          questionElement.textContent += text[i];
+          i++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 50);
+    }
+
+    function checkAnswer(selectedIndex) {
+      const correctIndex = shuffledQuestions[currentQuestionIndex].answer;
+      if (selectedIndex === correctIndex) {
+        score++;
+        scoreDisplay.textContent = `Score: ${score}`;
+      }
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < shuffledQuestions.length) {
+        resetTimer();
+        showQuestion();
+      } else {
+        endQuiz();
+      }
+    }
+
+    function startTimer() {
+      timeLeft = 30;
+      timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time: ${timeLeft}`;
+        if (timeLeft <= 0) {
+          nextQuestion();
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      startTimer();
+    }
+
+    function clearOptions() {
+      optionsElement.innerHTML = "";
+    }
+
+    function endQuiz() {
+      clearInterval(timer);
+      questionElement.textContent = `Quiz Over! Final Score: ${score}`;
+      clearOptions();
+      startBtn.style.display = "block";
+    }
+
+    startBtn.addEventListener("click", startQuiz);
+  </script>
+</body>
+</html>

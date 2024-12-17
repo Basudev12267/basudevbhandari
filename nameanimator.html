@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name or Title Animator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: neonGlow 2s infinite;
+        }
+
+        @keyframes neonGlow {
+            0%, 100% {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0080, 0 0 30px #ff0080, 0 0 40px #ff0080;
+            }
+            50% {
+                text-shadow: 0 0 5px #fff, 0 0 15px #ff0080, 0 0 25px #ff0080, 0 0 35px #ff0080, 0 0 50px #ff0080;
+            }
+        }
+
+        input {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        input:focus {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5), 0 0 20px #ff0080;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #fff;
+            font-size: 1rem;
+            text-shadow: 0 0 5px #000;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 id="animatedTitle">Your Awesome Title</h1>
+        <input 
+            type="text" 
+            placeholder="Enter your name or title" 
+            oninput="updateTitle(this.value)"
+        >
+    </div>
+    <footer>Made with ❤️ by Basudev Bhandari</footer>
+
+    <script>
+        function updateTitle(value) {
+            const title = document.getElementById('animatedTitle');
+            title.textContent = value || 'Your Awesome Title';
+        }
+    </script>
+</body>
+</html>

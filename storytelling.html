@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Storytelling Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+      text-align: center;
+    }
+    .story-container {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    .story-text {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .choice-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #3498db;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .choice-button:hover {
+      background-color: #2980b9;
+    }
+    .media-container img {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="story-container">
+    <div id="story-text" class="story-text"></div>
+    <div id="choices"></div>
+    <div id="media-container" class="media-container"></div>
+  </div>
+
+  <script>
+    const storyData = {
+      start: {
+        text: "You wake up in a dark forest. The trees are dense, and the air is cool. You hear a rustling sound nearby. What do you do?",
+        choices: [
+          { text: "Investigate the sound", next: "investigateSound" },
+          { text: "Ignore it and walk forward", next: "walkForward" }
+        ],
+        media: "forest.jpg"
+      },
+      investigateSound: {
+        text: "You approach cautiously, parting the bushes to see a small creature. It looks like a fox. It stares at you for a moment, then scurries away.",
+        choices: [
+          { text: "Follow the fox", next: "followFox" },
+          { text: "Return to the path", next: "walkForward" }
+        ],
+        media: "fox.jpg"
+      },
+      walkForward: {
+        text: "You decide to move ahead, deeper into the forest. The trees are tall, and the path is unclear. Suddenly, you come to a fork in the road.",
+        choices: [
+          { text: "Take the left path", next: "leftPath" },
+          { text: "Take the right path", next: "rightPath" }
+        ],
+        media: "fork.jpg"
+      },
+      followFox: {
+        text: "You follow the fox for a while, but it disappears into the underbrush. You find yourself standing in front of a mysterious cave.",
+        choices: [
+          { text: "Enter the cave", next: "enterCave" },
+          { text: "Turn back and return to the path", next: "walkForward" }
+        ],
+        media: "cave.jpg"
+      },
+      leftPath: {
+        text: "You take the left path and find a small village. The people are friendly, and you are invited to stay for dinner.",
+        choices: [
+          { text: "Accept their invitation", next: "dinner" },
+          { text: "Politely decline and continue walking", next: "walkForward" }
+        ],
+        media: "village.jpg"
+      },
+      rightPath: {
+        text: "You take the right path and discover an ancient temple. Its door is slightly ajar.",
+        choices: [
+          { text: "Enter the temple", next: "enterTemple" },
+          { text: "Leave the temple and go back", next: "walkForward" }
+        ],
+        media: "temple.jpg"
+      },
+      enterCave: {
+        text: "You enter the cave and find yourself in a large, dimly lit chamber. There's a treasure chest in the corner.",
+        choices: [
+          { text: "Open the chest", next: "treasure" },
+          { text: "Leave the cave", next: "walkForward" }
+        ],
+        media: "chest.jpg"
+      },
+      dinner: {
+        text: "The villagers share a hearty meal with you, and you spend the night talking by the fire. The next day, they give you a map for your journey.",
+        choices: [
+          { text: "Thank them and continue on your way", next: "walkForward" }
+        ],
+        media: "dinner.jpg"
+      },
+      enterTemple: {
+        text: "You step into the temple, and the door creaks shut behind you. Inside, you see an altar with a glowing gemstone.",
+        choices: [
+          { text: "Take the gemstone", next: "takeGemstone" },
+          { text: "Leave the temple", next: "walkForward" }
+        ],
+        media: "gemstone.jpg"
+      },
+      treasure: {
+        text: "You open the chest and find gold coins, jewels, and a mysterious artifact. It's a powerful amulet that glows faintly.",
+        choices: [
+          { text: "Take the amulet", next: "takeAmulet" },
+          { text: "Leave the treasure and return to the path", next: "walkForward" }
+        ],
+        media: "treasure.jpg"
+      },
+      takeGemstone: {
+        text: "As you touch the gemstone, you feel a surge of energy. Suddenly, the ground shakes, and you are teleported to another world!",
+        choices: [
+          { text: "Explore this new world", next: "exploreNewWorld" }
+        ],
+        media: "newworld.jpg"
+      },
+      takeAmulet: {
+        text: "The amulet gives you great power. You feel invincible as you continue your journey, ready for whatever challenges lie ahead.",
+        choices: [
+          { text: "Use the amulet's power", next: "usePower" },
+          { text: "Keep the amulet and walk on", next: "walkForward" }
+        ],
+        media: "amulet.jpg"
+      },
+      exploreNewWorld: {
+        text: "You arrive in a strange world filled with floating islands. There is a giant castle in the distance.",
+        choices: [
+          { text: "Head to the castle", next: "castle" },
+          { text: "Explore the floating islands", next: "floatingIslands" }
+        ],
+        media: "floatingislands.jpg"
+      },
+      usePower: {
+        text: "You use the amulet’s power to overcome obstacles and defeat enemies, ultimately becoming a hero of legend.",
+        choices: [
+          { text: "Celebrate your victory", next: "end" }
+        ],
+        media: "victory.jpg"
+      },
+      castle: {
+        text: "The castle is full of secrets and traps. You must decide how to proceed carefully.",
+        choices: [
+          { text: "Enter the castle", next: "enterCastle" },
+          { text: "Leave and return to the forest", next: "walkForward" }
+        ],
+        media: "castle.jpg"
+      },
+      floatingIslands: {
+        text: "The floating islands are beautiful but dangerous. You must cross bridges that sway with every step.",
+        choices: [
+          { text: "Cross the bridge", next: "crossBridge" },
+          { text: "Fly between the islands", next: "flyIslands" }
+        ],
+        media: "bridge.jpg"
+      },
+      end: {
+        text: "The adventure comes to an end. You have completed your journey and earned a place in the storybooks!",
+        choices: [],
+        media: "end.jpg"
+      }
+    };
+
+    let currentStory = "start";
+
+    function updateStory() {
+      const story = storyData[currentStory];
+      document.getElementById('story-text').innerText = story.text;
+      const choicesContainer = document.getElementById('choices');
+      choicesContainer.innerHTML = '';
+
+      story.choices.forEach(choice => {
+        const button = document.createElement('button');
+        button.classList.add('choice-button');
+        button.innerText = choice.text;
+        button.onclick = function () {
+          currentStory = choice.next;
+          updateStory();
+        };
+        choicesContainer.appendChild(button);
+      });
+
+      const mediaContainer = document.getElementById('media-container');
+      mediaContainer.innerHTML = '';
+      if (story.media) {
+        const img = document.createElement('img');
+        img.src = story.media;
+        mediaContainer.appendChild(img);
+      }
+    }
+
+    window.onload = updateStory;
+  </script>
+</body>
+</html>
