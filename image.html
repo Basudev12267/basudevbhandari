@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Image Generator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1a73e8, #34a853);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      overflow: hidden;
+      background-size: 400% 400%;
+      animation: gradientAnimation 8s ease infinite;
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      position: relative;
+      max-width: 600px;
+      width: 90%;
+      border: 3px solid transparent;
+      background-clip: padding-box;
+      animation: borderGlow 2s infinite alternate;
+    }
+
+    @keyframes borderGlow {
+      0% {
+        box-shadow: 0 0 10px #34a853, 0 0 20px #1a73e8;
+      }
+      100% {
+        box-shadow: 0 0 20px #34a853, 0 0 40px #1a73e8;
+      }
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #fff;
+      font-size: 48px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    button {
+      padding: 16px 36px;
+      background-color: #1a73e8;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0f5ab5;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    #output {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 15px;
+      margin-top: 15px;
+    }
+
+    .notification {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      color: black;
+      font-size: 28px;
+      text-align: center;
+      margin-top: 20px;
+      display: none;
+      animation: fadeIn 0.5s ease forwards, slideDown 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-20px);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 15px;
+      font-size: 20px;
+      color: white;
+      text-align: center;
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        text-shadow: 0 0 10px #34a853, 0 0 20px #1a73e8;
+      }
+      100% {
+        text-shadow: 0 0 20px #34a853, 0 0 40px #1a73e8;
+      }
+    }
+
+    footer p {
+      margin: 0;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Random Image Generator</h1>
+  <button id="generate">Generate Photo</button>
+  <div id="output"></div>
+  <div class="notification" id="notification">
+    <p>Please refresh the page to generate a new image.</p>
+    <button id="refreshBtn">I Understand</button>
+  </div>
+  <footer>
+    <p>Made with ❤️ by Basudev Bhandari</p>
+  </footer>
+</div>
+
+<script>
+  const WORKER_URL = "https://ai.bhandaribasudev.workers.dev/"; // Replace with your Cloudflare Worker URL
+  const generateButton = document.getElementById('generate');
+  const notification = document.getElementById('notification');
+  const refreshBtn = document.getElementById('refreshBtn');
+
+  generateButton.addEventListener('click', () => {
+    notification.style.display = 'block'; // Show the message
+  });
+
+  refreshBtn.addEventListener('click', () => {
+    window.location.href = WORKER_URL; // Redirect to the Cloudflare Worker URL
+  });
+</script>
+
+</body>
+</html>
