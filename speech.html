@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speech to Text</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #6e7dff, #a1c4fd);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: white;
+      font-size: 3rem;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    p {
+      color: #333;
+      font-size: 1.5rem;
+    }
+
+    /* Main Container Styles */
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 60px;
+      border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 800px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Edge Light Effect */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7), 0 0 40px rgba(255, 0, 255, 0.5);
+      animation: edgeGlow 1.5s infinite linear;
+      z-index: -1;
+    }
+
+    @keyframes edgeGlow {
+      0% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.7), 0 0 50px rgba(255, 0, 255, 0.5); }
+      50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.7), 0 0 80px rgba(255, 0, 255, 0.5); }
+      100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.7), 0 0 50px rgba(255, 0, 255, 0.5); }
+    }
+
+    /* Styling for Button */
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 20px;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 30px;
+      width: 60%;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      outline: none;
+    }
+
+    button:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+
+    button:focus {
+      outline: 3px solid #4CAF50;
+    }
+
+    /* Styling for the Speech-to-Text output */
+    #output {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f4f4f4;
+      border-radius: 10px;
+      min-height: 80px;
+      font-size: 18px;
+      color: #333;
+      width: 80%;
+      margin: 20px auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      line-height: 1.6;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    /* Footer Styling */
+    footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #4CAF50;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Advanced Speech to Text</h1>
+  <p>Click the button below to start speaking and convert your speech to text in real-time.</p>
+
+  <button id="start-recording">Start Recording</button>
+
+  <div id="output"></div>
+</div>
+
+<footer>
+  <p>Made with ❤️ by <a href="https://bhandaribasudev.com.np" target="_blank">Basudev Bhandari</a></p>
+</footer>
+
+<script>
+  // Speech to Text Functionality
+  const startButton = document.getElementById('start-recording');
+  const outputDiv = document.getElementById('output');
+  
+  let recognition;
+
+  // Check if the browser supports SpeechRecognition API
+  if ('webkitSpeechRecognition' in window) {
+    recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+    
+    recognition.onstart = function() {
+      outputDiv.innerHTML = 'Listening...';
+    };
+
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      outputDiv.innerHTML = `You said: <strong>${transcript}</strong>`;
+    };
+
+    recognition.onerror = function(event) {
+      outputDiv.innerHTML = 'Error occurred. Please try again.';
+    };
+
+    recognition.onend = function() {
+      outputDiv.innerHTML += ' (Recording stopped)';
+    };
+    
+    startButton.onclick = function() {
+      recognition.start();
+    };
+  } else {
+    outputDiv.innerHTML = 'Speech recognition is not supported in this browser.';
+    startButton.disabled = true;
+  }
+</script>
+
+</body>
+</html>
