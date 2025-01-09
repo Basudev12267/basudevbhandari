@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Verification</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+        }
+
+        .verification-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background: #f3f3f3;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4caf50;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.1s ease-in-out;
+        }
+
+        .scanning-message {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .footer a {
+            color: #6a11cb;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .verification-container {
+                width: 80%;
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="verification-container">
+        <h2>Robot Verification</h2>
+
+        <div class="scanning-message">
+            Verifying your details...
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="footer">
+            <span>Made with ❤️ by <a href="#">Basudev Bhandari</a></span>
+        </div>
+    </div>
+
+    <script>
+        function startScan() {
+            let progress = 0;
+            const progressBar = document.getElementById("progress-bar");
+            const scanningMessage = document.querySelector(".scanning-message");
+
+            const interval = setInterval(function() {
+                if (progress < 100) {
+                    progress += 2;
+                    progressBar.style.width = progress + "%";
+                } else {
+                    clearInterval(interval);
+                    scanningMessage.innerHTML = "Verification complete. Redirecting...";
+                    setTimeout(function() {
+                        window.location.href = "mainpage.html";  // Redirect to mainpage.html
+                    }, 2000);
+                }
+            }, 100);
+        }
+
+        window.onload = startScan;
+    </script>
+
+</body>
+</html>

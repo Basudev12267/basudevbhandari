@@ -3,271 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basudev Bhandari | Unique and Creative</title>
+    <title>Beautiful Login Form</title>
     <style>
-        /* Global Styles */
-        * {
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            height: 100%;
             font-family: 'Arial', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(to bottom, #87CEEB, #B0E0E6);
-            overflow-x: hidden;
-        }
-
-        /* Scroll Down Message Styling */
-        .scroll-down-message {
-            text-align: center;
-            position: absolute;
-            top: 75%; /* Adjusting position below the welcome message */
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #333;
-            font-size: 1.5em;
-            font-weight: bold;
-            z-index: 9999;
-        }
-
-        .scroll-down-message .arrow {
-            margin-top: 20px;
-            font-size: 2em;
-            animation: bounce 1.5s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-
-        /* Global Warming Message Styling */
-        .global-message {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ffcc00;
-            color: #333;
-            padding: 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1.2em;
-            z-index: 9999;
-            opacity: 0;
-            animation: fadeInOut 6s forwards;
-            margin-top: 10px;
-        }
-
-        @keyframes fadeInOut {
-            0% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-            80% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-            100% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-50px);
-            }
-        }
-
-        /* Parallax Effect for Hero Section */
-        .parallax {
-            background-image: url('https://www.example.com/your-image.jpg');
-            height: 100vh;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
-            z-index: 0;
         }
 
-        header {
-            text-align: center;
-            padding: 40px;
-            color: white;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        /* Header Content */
-        header h1 {
-            font-size: 3em;
-            letter-spacing: 3px;
-            color: #ff5722;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-        }
-
-        header h2 {
-            font-size: 1.8em;
-            color: #f1f1f1;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.7);
-            position: sticky;
-            top: 0;
-            padding: 15px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 5px;
-        }
-
-        /* Features Section */
-        #features {
-            background: #f7d794;
-            padding: 60px 20px;
-            text-align: center;
+        h2 {
+            font-size: 32px;
             color: #333;
+            margin-bottom: 20px;
         }
 
-        .feature-links a {
-            display: block;
+        p {
+            color: #777;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .input-field {
+            width: 100%;
             padding: 15px;
-            margin: 10px;
-            background-color: #ff5722;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            background-color: #f8f8f8;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ff7e5f;
+            background-color: #fff;
+        }
+
+        .login-btn, .guest-btn {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            background-color: #ff7e5f;
             color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover, .guest-btn:hover {
+            background-color: #feb47b;
+            transform: translateY(-3px);
+        }
+
+        .checkbox-container {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .checkbox-container input {
+            margin-right: 10px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer a {
+            color: #ff7e5f;
             text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.1em;
-            text-align: center;
-            transition: background-color 0.3s;
         }
 
-        .feature-links a:hover {
-            background-color: #ff7043;
+        .footer a:hover {
+            text-decoration: underline;
         }
 
-        html {
-            scroll-behavior: smooth;
+        @media (max-width: 480px) {
+            .login-container {
+                width: 80%;
+                padding: 20px;
+            }
+
+            .input-field {
+                font-size: 14px;
+            }
+
+            .login-btn, .guest-btn {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Maintenance Message -->
-    <div class="maintenance-message">This website is under maintenance</div>
+    <div class="login-container">
+        <h2>Please Login to Continue</h2>
+        <p>Welcome! Please enter your credentials below.</p>
+        <input type="text" class="input-field" id="username" placeholder="Username" required>
+        <input type="password" class="input-field" id="password" placeholder="Password" required>
 
-    <!-- Global Warming Messages (automatically displayed and disappear) -->
-    <div class="global-message" id="message1">Global Warming is a Serious Issue!</div>
-    <div class="global-message" id="message2">We need to Act Now for Our Future!</div>
-    <div class="global-message" id="message3">Reduce, Reuse, and Recycle!</div>
-    <div class="global-message" id="message4">Save Water, Save the Planet!</div>
-    <div class="global-message" id="message5">Fight Climate Change, Fight for Life!</div>
-    <div class="global-message" id="message6">The time to act on climate change is now!</div>
-    <div class="global-message" id="message7">There is no planet B!</div>
-    <div class="global-message" id="message8">The climate is changing. Why aren’t we!</div>
-    <div class="global-message" id="message9">Act on climate today for a better tomorrow!</div>
-    
-    <!-- Parallax Hero Section -->
-    <div class="parallax">
-        <header>
-            <h1>Welcome to Basudev's Creative World</h1>
-            <h2>Explore, Learn, and Create</h2>
-        </header>
-    </div>
-
-    <!-- Scroll Down Message -->
-    <div class="scroll-down-message">
-        Scroll down for features
-        <div class="arrow">&#8595;</div> <!-- Down Arrow -->
-    </div>
-
-    <!-- Navigation -->
-    <nav>
-        <a href="#features">Features</a>
-    </nav>
-
-    <!-- Features Section -->
-    <section id="features">
-        <h2>Features</h2>
-        <div class="feature-links">
-            <a href="factgenerator.html" target="_blank"> Fact Generator</a>
-            <a href="music.html" target="_blank"> Music</a>
-            <a href="namegenerator.html" target="_blank"> Unique Name Generator</a>
-            <a href="password.html" target="_blank"> Password Generator</a>
-            <a href="qr.html" target="_blank">  QR Code Generator</a>
-            <a href="quiz.html" target="_blank"> Quiz</a>
-            <a href="speed.html" target="_blank"> Check Typing Speed</a>
-            <a href="story.html" target="_blank"> Story</a>
-            <a href="essay.html.html" target="_blank"> Essay </a>
-            <a href="poem.html" target="_blank"> Poem </a>
-            <a href="logo.html" target="_blank"> logo </a>
-            <a href="game2.html" target="_blank"> Guess the colour </a>
-            <a href="game.html" target="_blank"> Snake Game </a>
-            <a href="cv.html" target="_blank"> Cv /Resume  Generator  </a>
-            <a href="theme.html" target="_blank">Theme  </a>
-            <a href="unitconverter.html" target="_blank"> Unit converter</a>
-            <a href="nameanimator.html" target="_blank">Word Animator</a>
+        <div class="checkbox-container">
+            <input type="checkbox" id="agreeTerms">
+            <label for="agreeTerms">I agree to the <a href="#">Terms and Conditions</a></label>
         </div>
-    </section>
+
+        <button class="login-btn" onclick="login()">Login</button>
+        <button class="guest-btn" onclick="loginAsGuest()">Login as Guest</button>
+
+        <div class="footer">
+            <span>Made with ❤️ by <a href="#">Basudev Bhandari</a></span>
+        </div>
+    </div>
 
     <script>
-        // JavaScript to show global warming messages at intervals
-        let messages = [
-            "Global Warming is a Serious Issue!",
-            "We need to Act Now for Our Future!",
-            "Reduce, Reuse, and Recycle!",
-            "Save Water, Save the Planet!",
-            "Fight Climate Change, Fight for Life!",
-            "The time to act on climate change is now!",
-            "There is no planet B!",
-            "The climate is changing. Why aren’t we!",
-            "Act on climate today for a better tomorrow!",
-        ];
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var agreeTerms = document.getElementById('agreeTerms').checked;
 
-        let messageIndex = 0;
-
-        function showNextMessage() {
-            if (messageIndex < messages.length) {
-                let messageDiv = document.createElement('div');
-                messageDiv.classList.add('global-message');
-                messageDiv.textContent = messages[messageIndex];
-                document.body.appendChild(messageDiv);
-
-                // Automatically remove the message after a few seconds
-                setTimeout(() => {
-                    messageDiv.style.opacity = 0;
-                    setTimeout(() => {
-                        messageDiv.remove();
-                    }, 1000);
-                }, 5000);
-
-                messageIndex++;
-                setTimeout(showNextMessage, 6000); // Show the next message every 6 seconds
+            if (username && password && agreeTerms) {
+                window.location.href = 'captcha.html';  // Redirect to captcha page
+            } else {
+                alert("Please fill in both username, password, and agree to the terms.");
             }
         }
 
-        // Start showing messages after a slight delay
-        setTimeout(showNextMessage, 1000); // Start after 1 second to prevent overlap at start
+        function loginAsGuest() {
+            window.location.href = 'captcha.html';  // Redirect to captcha page
+        }
     </script>
 
 </body>

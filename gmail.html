@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail and Password Generator</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            zoom: 1.2; /* Overall zoom for better visibility */
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 3em;
+            color: #ffffff;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        #output {
+            margin: 30px auto;
+            padding: 50px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffffff;
+            border-radius: 15px;
+            width: 95%;
+            max-width: 1000px; /* Larger div for better display */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            font-size: 1.5em; /* Larger text for visibility */
+            color: #fff;
+            font-weight: bold;
+            overflow: hidden; /* For typewriter effect */
+            white-space: nowrap; /* For typewriter effect */
+        }
+        button {
+            display: block;
+            margin: 15px auto;
+            padding: 20px 30px;
+            background-color: #ffffff;
+            color: #6a11cb;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            width: 90%;
+            max-width: 300px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #f4f4f4;
+            color: #2575fc;
+            transform: scale(1.1); /* Zoom effect on hover */
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4); /* Shadow on hover */
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #ffffff;
+            font-size: 1.2em;
+            text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        /* Typewriter effect */
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        @keyframes blink {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: white;
+            }
+        }
+        #output.typing {
+            border-right: 2px solid white;
+            animation: typing 3s steps(30, end), blink 0.6s step-end infinite;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gmail and Password Generator</h1>
+    <div id="output">Click a button to get started!</div>
+    <button onclick="generateGmail()">Get Gmail</button>
+    <button onclick="generatePassword()">Get Password</button>
+    <button onclick="showCurrentGmail()">Show Distributed Gmail</button>
+    <footer>Designed with ❤️ by Basudev Bhandari</footer>
+
+    <script>
+        const gmails = [
+            { email: "manu29809@gmail.com", password: "FgeG1y65P" },
+            { email: "meetshrotriya@gmail.com", password: "ChqZWtS42" },
+            { email: "tanmaysharma07@gmail.com", password: "sBRY6EZYT" },
+            { email: "kartikkumar781@gmail.com", password: "abPRB597D" },
+            { email: "arun.singh2205@gmail.com", password: "xmFPEYM31" },
+            { email: "rohitneema065@gmail.com", password: "71D8kJGUh" },
+            { email: "dharmendershrm09@gmail.com", password: "RKtfx7amB" },
+            { email: "publicdial@gmail.com", password: "yuusD57Nk" },
+            { email: "kumarmrinal27@gmail.com", password: "KSaWmjY8h" },
+            { email: "saikumar6448@gmail.com", password: "LjB82yjMB" }
+        ];
+
+        let currentGmail = null;
+
+        function typeWriterEffect(text) {
+            const output = document.getElementById("output");
+            output.classList.add("typing");
+            output.textContent = ""; // Clear output
+
+            let i = 0;
+            const typingSpeed = 50; // Speed of typing (in ms)
+
+            function type() {
+                if (i < text.length) {
+                    output.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, typingSpeed);
+                } else {
+                    output.classList.remove("typing"); // Remove blinking cursor effect
+                }
+            }
+            type();
+        }
+
+        function generateGmail() {
+            if (currentGmail) {
+                typeWriterEffect("You've already received your Gmail!");
+                return;
+            }
+
+            let newGmail = gmails[Math.floor(Math.random() * gmails.length)];
+            currentGmail = newGmail;
+
+            typeWriterEffect(`Gmail ID: ${newGmail.email}`);
+        }
+
+        function generatePassword() {
+            if (!currentGmail) {
+                typeWriterEffect("First click 'Get Gmail' to receive your Gmail.");
+                return;
+            }
+
+            typeWriterEffect(`Password: ${currentGmail.password}`);
+        }
+
+        function showCurrentGmail() {
+            if (!currentGmail) {
+                typeWriterEffect("No Gmail account has been distributed yet.");
+                return;
+            }
+
+            typeWriterEffect(`Distributed Gmail: ${currentGmail.email}`);  // Clean output without additional formatting
+        }
+    </script>
+</body>
+</html>

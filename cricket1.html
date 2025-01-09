@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Cricketer</title>
+    <style>
+        /* Styling for the cricket-themed page */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://www.toptal.com/designers/subtlepatterns/uploads/darkness.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .description {
+            font-size: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #ffcb05;
+            padding: 15px;
+            border-left: 5px solid #28a745;
+            background: #2d3436;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .options button {
+            padding: 12px;
+            font-size: 18px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .options button:hover {
+            background: #0056b3;
+        }
+
+        .result {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .score {
+            font-size: 20px;
+            margin-top: 15px;
+            color: #ffcb05;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        footer span {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <header>Guess the Cricketer</header>
+    <div class="game-container">
+        <div id="score" class="score">Score: 0</div>
+        <div id="description" class="description">Loading...</div>
+        <div class="options">
+            <button id="option1" onclick="checkAnswer(0)">Option 1</button>
+            <button id="option2" onclick="checkAnswer(1)">Option 2</button>
+            <button id="option3" onclick="checkAnswer(2)">Option 3</button>
+            <button id="option4" onclick="checkAnswer(3)">Option 4</button>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+    <footer>Made with ❤️ by <span>Basudev Bhandari</span></footer>
+
+    <script>
+        // Cricketer data: iconic contributions and names (50+ entries)
+        const cricketers = [
+            { name: "Virat Kohli", description: "Scored 183 runs against Pakistan in the 2012 Asia Cup." },
+            { name: "MS Dhoni", description: "Led India to victory in the 2011 ICC World Cup with an iconic 91*." },
+            { name: "Chris Gayle", description: "Smashed the first-ever T20 World Cup century in 2007." },
+            { name: "Rohit Sharma", description: "Holds the record for the highest ODI score: 264 runs against Sri Lanka." },
+            { name: "AB de Villiers", description: "Scored the fastest ODI century (31 balls) against West Indies in 2015." },
+            { name: "Sachin Tendulkar", description: "First player to score 200 in an ODI." },
+            { name: "Steve Smith", description: "Scored twin centuries in the 2017 Pune Test against India." },
+            { name: "Kane Williamson", description: "Played a calm and composed innings in the 2019 ICC World Cup final." },
+            { name: "Joe Root", description: "Scored 254 runs against Pakistan in 2016, showcasing his class." },
+            { name: "Muttiah Muralitharan", description: "Holds the record for the most wickets in Test cricket (800)." },
+            { name: "Lasith Malinga", description: "Took 4 wickets in 4 consecutive balls in 2007 against South Africa." },
+            { name: "Jacques Kallis", description: "Regarded as the greatest all-rounder in cricket history." },
+            { name: "Yuvraj Singh", description: "Smashed six sixes in an over during the 2007 T20 World Cup." },
+            { name: "Ricky Ponting", description: "Scored 140* in the 2003 ICC World Cup final." },
+            { name: "Glenn McGrath", description: "Most wickets in World Cup history (71)." },
+            { name: "Shane Warne", description: "Took the 'Ball of the Century' against Mike Gatting in 1993." },
+            { name: "Brett Lee", description: "Known for his sheer pace and over 700 international wickets." },
+            { name: "Shoaib Akhtar", description: "Delivered the fastest ball in cricket history (161.3 km/h)." },
+            { name: "Rahul Dravid", description: "Known as 'The Wall' for his solid defense." },
+            { name: "Anil Kumble", description: "Took 10 wickets in an innings against Pakistan in 1999." },
+            { name: "Andrew Flintoff", description: "Key player in England's 2005 Ashes win." },
+            { name: "Mitchell Starc", description: "Player of the Tournament in the 2015 ICC World Cup." },
+            { name: "Brendon McCullum", description: "Scored the fastest Test century (54 balls) in 2016." },
+            { name: "Wasim Akram", description: "Regarded as the 'Sultan of Swing' in cricket." },
+            // Add more entries as needed
+        ];
+
+        let currentQuestion = {};
+        let options = [];
+        let score = 0;
+        const askedQuestions = new Set();
+
+        // Shuffle array
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Load a new question
+        function nextQuestion() {
+            if (askedQuestions.size === cricketers.length) {
+                document.getElementById("description").textContent = "Game Over! You've answered all questions.";
+                return;
+            }
+
+            document.getElementById("result").textContent = "";
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * cricketers.length);
+            } while (askedQuestions.has(randomIndex));
+            askedQuestions.add(randomIndex);
+
+            currentQuestion = cricketers[randomIndex];
+
+            options = [...cricketers];
+            shuffle(options);
+            options = options.slice(0, 3);
+            if (!options.find(o => o.name === currentQuestion.name)) {
+                options.push(currentQuestion);
+            }
+            shuffle(options);
+
+            document.getElementById("description").textContent = currentQuestion.description;
+            document.getElementById("option1").textContent = options[0].name;
+            document.getElementById("option2").textContent = options[1].name;
+            document.getElementById("option3").textContent = options[2].name;
+            document.getElementById("option4").textContent = options[3].name;
+        }
+
+        // Check the answer
+        function checkAnswer(selectedOption) {
+            if (options[selectedOption].name === currentQuestion.name) {
+                document.getElementById("result").textContent = "Correct!";
+                document.getElementById("result").style.color = "green";
+                score++;
+            } else {
+                document.getElementById("result").textContent = `Wrong! The correct answer is ${currentQuestion.name}.`;
+                document.getElementById("result").style.color = "red";
+            }
+            updateScore();
+            setTimeout(nextQuestion, 1500); // Auto-next after 1.5 seconds
+        }
+
+        // Update score
+        function updateScore() {
+            document.getElementById("score").textContent = `Score: ${score}`;
+        }
+
+        // Start the game
+        nextQuestion();
+    </script>
+</body>
+</html>

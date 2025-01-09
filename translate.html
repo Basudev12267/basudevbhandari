@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translator</title>
+    <style>
+        /* Keep the dynamic gradient background */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: gradient 5s infinite;
+        }
+
+        @keyframes gradient {
+            0% { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
+            50% { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+            100% { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            width: 500px; /* Increased for larger div */
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333333;
+            font-size: 1.8rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px; /* Increased height */
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .selectors {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        select {
+            width: 48%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #cccccc;
+            border-radius: 10px;
+            background: #f4f4f4;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #6a11cb;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2575fc;
+        }
+
+        .output {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .output h3 {
+            font-size: 1.2rem;
+            color: #555555;
+        }
+
+        .output p {
+            font-size: 1rem;
+            color: #000000;
+            padding: 10px;
+            background: #f4f4f4;
+            border-radius: 10px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: #555555;
+        }
+
+        .footer span {
+            color: #e25555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Language Translator</h1>
+        <textarea id="inputText" placeholder="Enter text to translate..."></textarea>
+
+        <div class="selectors">
+            <select id="sourceLanguage">
+                <option value="auto">Detect Language</option>
+            </select>
+            <select id="targetLanguage">
+                <option value="en">English</option>
+            </select>
+        </div>
+
+        <button id="translateBtn">Translate</button>
+
+        <div class="output">
+            <h3>Translated Text:</h3>
+            <p id="outputText">Translation will appear here...</p>
+        </div>
+
+        <div class="footer">
+            Made with <span>❤️</span> by Basudev Bhandari
+        </div>
+    </div>
+
+    <script>
+        const languages = {
+            "en": "English",
+            "ne": "Nepali",
+            "es": "Spanish",
+            "fr": "French",
+            "de": "German",
+            "hi": "Hindi",
+            "zh-CN": "Chinese (Simplified)",
+            "zh-TW": "Chinese (Traditional)",
+            "ja": "Japanese",
+            "ar": "Arabic",
+            "ru": "Russian",
+            "it": "Italian",
+            "pt": "Portuguese",
+            "ko": "Korean",
+            "tr": "Turkish",
+            "bn": "Bengali",
+            "ta": "Tamil",
+            "te": "Telugu",
+            "ml": "Malayalam",
+            "ur": "Urdu",
+            "th": "Thai",
+            "vi": "Vietnamese",
+            "sw": "Swahili",
+            "sv": "Swedish"
+        };
+
+        const sourceLanguage = document.getElementById("sourceLanguage");
+        const targetLanguage = document.getElementById("targetLanguage");
+
+        // Populate dropdowns with all languages
+        Object.keys(languages).forEach(key => {
+            const optionSource = document.createElement("option");
+            optionSource.value = key;
+            optionSource.textContent = languages[key];
+            sourceLanguage.appendChild(optionSource);
+
+            const optionTarget = document.createElement("option");
+            optionTarget.value = key;
+            optionTarget.textContent = languages[key];
+            targetLanguage.appendChild(optionTarget);
+        });
+
+        document.getElementById("translateBtn").addEventListener("click", async () => {
+            const text = document.getElementById("inputText").value;
+            const sourceLang = sourceLanguage.value;
+            const targetLang = targetLanguage.value;
+
+            if (!text) {
+                alert("Please enter text to translate.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch translation.");
+                }
+                const result = await response.json();
+                document.getElementById("outputText").textContent = result[0][0][0];
+            } catch (error) {
+                console.error("Translation error:", error);
+                document.getElementById("outputText").textContent = "Error: Unable to translate.";
+            }
+        });
+    </script>
+</body>
+</html>

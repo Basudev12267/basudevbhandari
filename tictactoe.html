@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f06, #ffba08);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            transition: opacity 0.5s ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background: #f4f4f4;
+            border: 2px solid #ccc;
+            font-size: 36px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .cell:hover {
+            background-color: #e8e8e8;
+        }
+
+        .cell.x {
+            color: #ff3d00;
+        }
+
+        .cell.o {
+            color: #4caf50;
+        }
+
+        .status {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .reset-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            font-size: 14px;
+            color: #fff;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .footer span {
+            font-size: 18px;
+            margin-right: 5px;
+        }
+
+        .footer a {
+            color: #ffba08;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .cell.clicked {
+            transform: scale(1.2);
+        }
+
+        .status.fade-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>Tic-Tac-Toe</h1>
+        <div id="playerInputSection">
+            <input type="text" id="playerXName" placeholder="Enter Player X's Name" />
+            <input type="text" id="playerOName" placeholder="Enter Player O's Name" />
+            <button id="startGameBtn">Start Game</button>
+        </div>
+        <div id="gameBoardSection" style="display: none;">
+            <div class="status" id="status">Waiting for Player X to start...</div>
+            <div class="board" id="board"></div>
+            <button class="reset-btn" id="resetBtn">Reset Game</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <span>Made with ❤️ by</span><a href="https://www.basudev.com" target="_blank">Basudev Bhandari</a>
+    </div>
+
+    <audio id="gameTone" src="https://www.soundjay.com/button/button-1.wav"></audio>
+
+    <script>
+        const boardElement = document.getElementById('board');
+        const statusElement = document.getElementById('status');
+        const resetBtn = document.getElementById('resetBtn');
+        const gameTone = document.getElementById('gameTone');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const playerInputSection = document.getElementById('playerInputSection');
+        const gameBoardSection = document.getElementById('gameBoardSection');
+        const playerXNameInput = document.getElementById('playerXName');
+        const playerONameInput = document.getElementById('playerOName');
+
+        let currentPlayer = 'X';
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let playerXName = '';
+        let playerOName = '';
+
+        function renderBoard() {
+            boardElement.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.textContent = gameBoard[i];
+                cell.setAttribute('data-index', i);
+                cell.addEventListener('click', handleCellClick);
+                if (gameBoard[i]) {
+                    cell.classList.add(gameBoard[i].toLowerCase());
+                }
+                boardElement.appendChild(cell);
+            }
+        }
+
+        function handleCellClick(event) {
+            const cellIndex = event.target.getAttribute('data-index');
+            if (gameBoard[cellIndex] || checkWinner()) {
+                return;
+            }
+
+            gameBoard[cellIndex] = currentPlayer;
+            event.target.classList.add('clicked');
+            renderBoard();
+            gameTone.play();
+
+            if (checkWinner()) {
+                statusElement.textContent = `${currentPlayer === 'X' ? playerXName : playerOName} Wins!`;
+                statusElement.classList.add('fade-in');
+                return;
+            }
+
+            if (gameBoard.every(cell => cell)) {
+                statusElement.textContent = 'It\'s a Draw!';
+                statusElement.classList.add('fade-in');
+                return;
+            }
+
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            statusElement.textContent = `${currentPlayer === 'X' ? playerXName : playerOName}'s Turn`;
+        }
+
+        function checkWinner() {
+            const winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (let combo of winningCombinations) {
+                const [a, b, c] = combo;
+                if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        function resetGame() {
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            statusElement.textContent = `${playerXName}'s Turn`;
+            statusElement.classList.remove('fade-in');
+            renderBoard();
+        }
+
+        function startGame() {
+            playerXName = playerXNameInput.value.trim();
+            playerOName = playerONameInput.value.trim();
+
+            if (!playerXName || !playerOName) {
+                alert('Please enter names for both players.');
+                return;
+            }
+
+            playerInputSection.style.display = 'none';
+            gameBoardSection.style.display = 'block';
+            statusElement.textContent = `${playerXName}'s Turn`;
+            renderBoard();
+        }
+
+        startGameBtn.addEventListener('click', startGame);
+        resetBtn.addEventListener('click', resetGame);
+    </script>
+
+</body>
+</html>

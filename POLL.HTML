@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .poll-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .poll-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .poll-container input[type="text"] {
+            margin: 5px;
+            padding: 10px;
+            width: 80%;
+        }
+
+        .poll-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .poll-container button:hover {
+            background-color: #45a049;
+        }
+
+        .poll-results {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+        }
+
+        footer span {
+            color: #ff6347; /* Love red color */
+        }
+    </style>
+</head>
+<body>
+
+<div class="poll-container">
+    <h2>Create Your Poll</h2>
+    
+    <!-- Poll Form -->
+    <input type="text" id="pollTitle" placeholder="Poll Title" />
+    <div id="pollOptions">
+        <input type="text" placeholder="Option 1" class="poll-option" /><br>
+        <input type="text" placeholder="Option 2" class="poll-option" /><br>
+    </div>
+    <button onclick="addPollOption()">Add Option</button>
+    <br><br>
+    <button onclick="submitPoll()">Submit Poll</button>
+
+    <!-- Poll Results -->
+    <div class="poll-results" id="pollResults"></div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <p>Designed with ❤️ by <span>Basudev Bhandari</span></p>
+</footer>
+
+<script>
+    // Poll Generator Functions
+    let pollOptions = [];
+    let votes = [];
+
+    function addPollOption() {
+        let pollOptionInput = document.createElement('input');
+        pollOptionInput.type = 'text';
+        pollOptionInput.placeholder = `Option ${pollOptions.length + 1}`;
+        pollOptionInput.className = 'poll-option';
+        document.getElementById('pollOptions').appendChild(pollOptionInput);
+    }
+
+    function submitPoll() {
+        let pollTitle = document.getElementById('pollTitle').value;
+        let options = document.getElementsByClassName('poll-option');
+        
+        // Collect poll options and votes
+        pollOptions = [];
+        votes = [];
+        for (let option of options) {
+            if (option.value) {
+                pollOptions.push(option.value);
+                votes.push(0); // Initialize votes to 0
+            }
+        }
+
+        // Display poll results
+        let pollResults = `<h3>${pollTitle}</h3>`;
+        for (let i = 0; i < pollOptions.length; i++) {
+            pollResults += `
+                <div>
+                    <label>${pollOptions[i]}</label>
+                    <input type="radio" name="poll" value="${i}" onclick="vote(${i})">
+                </div>
+            `;
+        }
+        document.getElementById('pollResults').innerHTML = pollResults;
+    }
+
+    function vote(optionIndex) {
+        votes[optionIndex]++;
+        displayPollResults();
+    }
+
+    function displayPollResults() {
+        let results = `<h3>Poll Results:</h3>`;
+        for (let i = 0; i < pollOptions.length; i++) {
+            results += `<p>${pollOptions[i]}: ${votes[i]} votes</p>`;
+        }
+        document.getElementById('pollResults').innerHTML = results;
+    }
+</script>
+
+</body>
+</html>

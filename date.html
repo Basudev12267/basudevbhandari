@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Converter (Nepali ↔ English)</title>
+    <style>
+        /* Advanced CSS for a colorful, dynamic design */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            background: #ffffff;
+            padding: 50px;
+            border-radius: 20px;
+            width: 1000px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: glowing-box 5s infinite alternate;
+        }
+
+        @keyframes glowing-box {
+            0% {
+                box-shadow: 0 0 10px #ff5733, 0 0 30px #ff5733, 0 0 60px #ff5733;
+            }
+            50% {
+                box-shadow: 0 0 15px #f4d03f, 0 0 45px #f4d03f, 0 0 75px #f4d03f;
+            }
+            100% {
+                box-shadow: 0 0 10px #33ff57, 0 0 30px #33ff57, 0 0 60px #33ff57;
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        select, button, input {
+            width: 30%;
+            padding: 15px;
+            font-size: 1.2rem;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            outline: none;
+            transition: box-shadow 0.3s;
+            text-align: center;
+        }
+
+        select:hover, button:hover, input:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button {
+            background: linear-gradient(45deg, #e74c3c, #8e44ad);
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #8e44ad, #3498db);
+        }
+
+        .output {
+            margin-top: 30px;
+        }
+
+        .output h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .output p {
+            font-size: 1.2rem;
+            color: #000000;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            font-style: italic;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+
+        .footer span {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗓 Nepali ↔ English Date Converter</h1>
+
+        <div>
+            <select id="year">
+                <option value="" disabled selected>Select Year</option>
+                <script>
+                    for (let year = 2000; year <= 2080; year++) {
+                        document.write(`<option value="${year}">${year}</option>`);
+                    }
+                </script>
+            </select>
+
+            <select id="month">
+                <option value="" disabled selected>Select Month</option>
+                <option value="1">Baishakh</option>
+                <option value="2">Jestha</option>
+                <option value="3">Ashad</option>
+                <option value="4">Shrawan</option>
+                <option value="5">Bhadra</option>
+                <option value="6">Ashwin</option>
+                <option value="7">Kartik</option>
+                <option value="8">Mangsir</option>
+                <option value="9">Poush</option>
+                <option value="10">Magh</option>
+                <option value="11">Falgun</option>
+                <option value="12">Chaitra</option>
+            </select>
+
+            <select id="day">
+                <option value="" disabled selected>Select Day</option>
+                <script>
+                    for (let day = 1; day <= 32; day++) {
+                        document.write(`<option value="${day}">${day}</option>`);
+                    }
+                </script>
+            </select>
+
+            <select id="direction">
+                <option value="ntoe">Nepali to English</option>
+                <option value="eton">English to Nepali</option>
+            </select>
+        </div>
+
+        <button id="convertBtn">Convert</button>
+
+        <div class="output" id="outputDiv" style="display: none;">
+            <h3>Converted Date:</h3>
+            <p id="resultDate">Result will appear here...</p>
+        </div>
+
+        <div class="footer">
+            Made with <span>❤️</span> by Basudev Bhandari
+        </div>
+    </div>
+
+    <script>
+        const baseNepaliDate = { year: 2000, month: 1, day: 1 }; // Base Nepali date (2000/01/01)
+        const baseEnglishDate = new Date(1943, 3, 14); // Corresponding English date (April 14, 1943)
+        const nepaliMonthNames = [
+            "Baishakh", "Jestha", "Ashad", "Shrawan", "Bhadra", "Ashwin", 
+            "Kartik", "Mangsir", "Poush", "Magh", "Falgun", "Chaitra"
+        ]; // Nepali month names
+        const englishMonthNames = [
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        ]; // English month names
+        const nepaliMonthDays = [30, 32, 31, 32, 31, 30, 30, 29, 30, 29, 30, 30]; // Days in each Nepali month
+
+        function convertNepaliToEnglish(year, month, day) {
+            let totalDays = 0;
+
+            // Add days for years
+            for (let i = baseNepaliDate.year; i < year; i++) {
+                totalDays += (i % 4 === 3) ? 366 : 365; // Leap year check
+            }
+
+            // Add days for months
+            for (let i = 1; i < month; i++) {
+                totalDays += nepaliMonthDays[i - 1];
+            }
+
+            // Add days for current month
+            totalDays += day - baseNepaliDate.day;
+
+            // Calculate English date
+            const resultDate = new Date(baseEnglishDate.getTime());
+            resultDate.setDate(baseEnglishDate.getDate() + totalDays);
+            return resultDate.toDateString();
+        }
+
+        function convertEnglishToNepali(date) {
+            const inputDate = new Date(date);
+            const diffInDays = Math.round((inputDate - baseEnglishDate) / (1000 * 60 * 60 * 24));
+            let year = baseNepaliDate.year;
+            let month = baseNepaliDate.month;
+            let day = baseNepaliDate.day + diffInDays;
+
+            while (day > nepaliMonthDays[month - 1]) {
+                day -= nepaliMonthDays[month - 1];
+                month++;
+                if (month > 12) {
+                    month = 1;
+                    year++;
+                }
+            }
+
+            return `${year} ${nepaliMonthNames[month - 1]} ${day}`;
+        }
+
+        document.getElementById('convertBtn').addEventListener('click', () => {
+            const year = parseInt(document.getElementById('year').value);
+            const month = parseInt(document.getElementById('month').value);
+            const day = parseInt(document.getElementById('day').value);
+            const direction = document.getElementById('direction').value;
+
+            if (!year || !month || !day) {
+                alert('Please select a valid date.');
+                return;
+            }
+
+            let result;
+            if (direction === 'ntoe') {
+                result = convertNepaliToEnglish(year, month, day);
+            } else {
+                const inputDate = new Date(year, month - 1, day);
+                result = convertEnglishToNepali(inputDate);
+            }
+
+            document.getElementById('resultDate').innerText = result;
+            document.getElementById('outputDiv').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #1d2671, #c33764);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      font-size: 2em;
+      font-weight: bold;
+      background: #111;
+      color: #fff;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+    }
+
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+
+    .options {
+      margin: 10px 0;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      background: #1d72b8;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 1em;
+      color: #fff;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #155a91;
+    }
+
+    .score {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.5em;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1em;
+      padding: 10px;
+      background: #111;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header>Cricket Quiz</header>
+  <div class="quiz-container">
+    <div id="quiz">
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+    </div>
+    <div class="score" id="score"></div>
+  </div>
+  <footer>Designed with ❤️ by Basudev Bhandari</footer>
+
+  <script>
+    const questions = [
+      { question: "Who scored the fastest Test century?", options: ["Brendon McCullum", "Virat Kohli", "AB de Villiers", "Chris Gayle"], answer: "Brendon McCullum" },
+      { question: "Who has the most Test runs in cricket history?", options: ["Ricky Ponting", "Sachin Tendulkar", "Jacques Kallis", "Rahul Dravid"], answer: "Sachin Tendulkar" },
+      { question: "Who was the first cricketer to hit six sixes in an over in T20I cricket?", options: ["Chris Gayle", "Yuvraj Singh", "Kieron Pollard", "Andre Russell"], answer: "Yuvraj Singh" },
+      { question: "Which team won the first-ever Cricket World Cup in 1975?", options: ["West Indies", "Australia", "England", "India"], answer: "West Indies" },
+      { question: "Who has the most wickets in Test cricket?", options: ["Muttiah Muralitharan", "Shane Warne", "Anil Kumble", "Glenn McGrath"], answer: "Muttiah Muralitharan" },
+      { question: "Who is the first cricketer to score 100 international centuries?", options: ["Ricky Ponting", "Virat Kohli", "Sachin Tendulkar", "Brian Lara"], answer: "Sachin Tendulkar" },
+      { question: "Who won the ICC T20 World Cup in 2022?", options: ["India", "England", "Pakistan", "New Zealand"], answer: "England" },
+      { question: "Who holds the record for the highest individual score in ODIs?", options: ["Rohit Sharma", "Chris Gayle", "Martin Guptill", "Virender Sehwag"], answer: "Rohit Sharma" },
+      { question: "Which country hosted the 2019 Cricket World Cup?", options: ["Australia", "England", "South Africa", "India"], answer: "England" },
+      { question: "Which player is known as the 'Universe Boss'?", options: ["Chris Gayle", "Andre Russell", "Kieron Pollard", "AB de Villiers"], answer: "Chris Gayle" },
+      { question: "Who holds the record for most sixes in ODIs?", options: ["Shahid Afridi", "Rohit Sharma", "Chris Gayle", "MS Dhoni"], answer: "Chris Gayle" },
+      { question: "Who won the Orange Cap in IPL 2022?", options: ["KL Rahul", "Ruturaj Gaikwad", "Jos Buttler", "David Warner"], answer: "Jos Buttler" },
+      { question: "Who was the first bowler to take 10 wickets in a Test innings?", options: ["Anil Kumble", "Jim Laker", "Muttiah Muralitharan", "Shane Warne"], answer: "Jim Laker" },
+      { question: "Which cricketer is known as 'Mr. 360'?", options: ["AB de Villiers", "Glenn Maxwell", "Jos Buttler", "Kevin Pietersen"], answer: "AB de Villiers" },
+      { question: "Which team won the IPL 2023 title?", options: ["Gujarat Titans", "Mumbai Indians", "Chennai Super Kings", "Rajasthan Royals"], answer: "Chennai Super Kings" },
+      { question: "Who holds the record for the fastest ODI century?", options: ["Virat Kohli", "AB de Villiers", "Shahid Afridi", "Corey Anderson"], answer: "AB de Villiers" },
+      { question: "Who is the youngest player to debut in international cricket?", options: ["Rashid Khan", "Tendulkar", "Aaqib Javed", "Hasan Raza"], answer: "Hasan Raza" },
+      { question: "Who is known as 'The Wall'?", options: ["Rahul Dravid", "Jacques Kallis", "Steve Smith", "Hashim Amla"], answer: "Rahul Dravid" },
+      { question: "Who is the only cricketer to score four consecutive centuries in a World Cup?", options: ["Rohit Sharma", "Kumar Sangakkara", "Ricky Ponting", "Virat Kohli"], answer: "Kumar Sangakkara" },
+      { question: "Which bowler is nicknamed the 'Yorker King'?", options: ["Jasprit Bumrah", "Lasith Malinga", "Shaheen Afridi", "Mitchell Starc"], answer: "Lasith Malinga" },
+      { question: "Who is the captain of Nepal's national cricket team as of 2024?", options: ["Sandeep Lamichhane", "Rohit Paudel", "Paras Khadka", "Gyanendra Malla"], answer: "Rohit Paudel" },
+      { question: "Which Nepalese bowler is known for playing in international T20 leagues?", options: ["Sandeep Lamichhane", "Sompal Kami", "Karan KC", "Basant Regmi"], answer: "Sandeep Lamichhane" },
+      { question: "When did Nepal qualify for the ICC Cricket World Cup Qualifiers for the first time?", options: ["2014", "2018", "2022", "2016"], answer: "2018" }
+      
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const scoreEl = document.getElementById("score");
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function showQuestion() {
+      if (currentQuestion >= questions.length) {
+        scoreEl.innerHTML = `Quiz Over! Your score is: ${score}/${questions.length}`;
+        return;
+      }
+
+      const question = questions[currentQuestion];
+      questionEl.textContent = question.question;
+      optionsEl.innerHTML = "";
+
+      question.options.forEach((option) => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.addEventListener("click", () => checkAnswer(option));
+        optionsEl.appendChild(button);
+      });
+    }
+
+    function checkAnswer(option) {
+      if (option === questions[currentQuestion].answer) {
+        score++;
+      }
+      currentQuestion++;
+      showQuestion();
+    }
+
+    shuffle(questions);
+    showQuestion();
+  </script>
+</body>
+</html>

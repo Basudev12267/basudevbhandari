@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Format Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #8e2de2, #4a00e0);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        header {
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 0 0 15px #fff, 0 0 30px #ff00ff;
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
+            width: 350px;
+        }
+        input, select, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background: #333;
+            color: white;
+            cursor: pointer;
+            border-radius: 15px;
+            font-weight: bold;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        button:hover {
+            background: #555;
+            box-shadow: 0px 0px 10px white;
+        }
+        img {
+            max-width: 300px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.4);
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #fff;
+            text-shadow: 0 0 5px #000;
+        }
+    </style>
+</head>
+<body>
+
+<header>Image Format Converter</header>
+
+<div class="container">
+    <input type="file" id="imageInput" accept="image/*" />
+    <select id="formatSelect">
+        <option value="image/png">PNG</option>
+        <option value="image/jpeg">JPEG</option>
+        <option value="image/webp">WEBP</option>
+        <option value="image/gif">GIF</option>
+        <option value="image/jpg">JPG</option>
+    </select>
+    <button onclick="convertImage()">Convert</button>
+</div>
+
+<div id="outputContainer">
+    <img id="previewImage" src="" alt="" style="display: none;" />
+    <a id="downloadLink" style="display: none;">
+        <button>Download Converted Image</button>
+    </a>
+</div>
+
+<footer>Designed with ❤️ by Basudev Bhandari</footer>
+
+<script>
+    function convertImage() {
+        const fileInput = document.getElementById("imageInput");
+        const formatSelect = document.getElementById("formatSelect");
+        const previewImage = document.getElementById("previewImage");
+        const downloadLink = document.getElementById("downloadLink");
+
+        const file = fileInput.files[0];
+        const format = formatSelect.value;
+
+        if (!file) {
+            alert("Please select an image to convert.");
+            return;
+        }
+
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            img.src = e.target.result;
+            previewImage.src = e.target.result;
+            previewImage.style.display = "block"; // Show preview image
+
+            img.onload = function() {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+
+                canvas.toBlob(
+                    function(blob) {
+                        const url = URL.createObjectURL(blob);
+                        downloadLink.href = url;
+                        downloadLink.download = `converted_image.${format.split('/')[1]}`;
+                        downloadLink.style.display = "block"; // Show download button
+                    },
+                    format,
+                    1.0
+                );
+            };
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>

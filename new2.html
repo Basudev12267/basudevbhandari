@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basudev's World</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5539548565697603"
+     crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EGV3F3E56Q"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-EGV3F3E56Q');
+    </script>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: radial-gradient(circle, #000428, #004e92);
+            font-family: 'Courier New', Courier, monospace;
+            transform: scale(1.2); /* Apply scaling to zoom in */
+            transform-origin: top left; /* Adjust zoom origin */
+        }
+
+        header, footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+
+        main {
+            padding: 1em;
+        }
+
+        /* Mobile styles (default) */
+        header h1 {
+            font-size: 2em; /* Increase header font size */
+        }
+
+        .content {
+            font-size: 1.2em; /* Increase content font size */
+            color: white;
+            text-align: center;
+            margin-top: 20vh;
+        }
+
+        /* Tablet styles */
+        @media (min-width: 600px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .content {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+            header h1 {
+                font-size: 3em; /* Increase header size */
+            }
+
+            .content {
+                font-size: 1.8em; /* Increase content size */
+            }
+        }
+
+        /* Stars background */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            z-index: 1;
+        }
+
+        /* Scrolling text animation */
+        .scrolling-text {
+            position: absolute;
+            top: 15vh; /* Adjust the position */
+            width: 100%;
+            white-space: nowrap;
+            color: #fff;
+            font-size: 36px; /* Larger scrolling text */
+            font-weight: bold;
+            animation: scrolling 15s linear infinite;
+            text-align: center;
+        }
+
+        @keyframes scrolling {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Main content */
+        .typewriter h1 {
+            font-size: 60px; /* Increase typewriter effect size */
+            overflow: hidden;
+            border-right: .15em solid #6fb07f;
+            white-space: nowrap;
+            margin: 0 auto;
+            width: 0;
+            animation: typing 3s steps(30) forwards, blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            to {
+                width: 28em;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        .cont {
+            position: relative;
+            width: 200px; /* Smaller width */
+            height: 80px; /* Smaller height */
+            margin: 20px auto;
+            z-index: 50; /* Ensure the button stays on top */
+        }
+
+        button {
+            border-width: 1px;
+            width: 100%; /* Full width of the cont */
+            height: 100%; /* Full height of the cont */
+            border-radius: 50px;
+            background: #fff;
+            position: absolute;
+            border: 5px solid #6fb07f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000; /* High z-index to keep the button on top */
+            font-size: 20px; /* Smaller font size */
+        }
+
+        button > span {
+            font-size: 24px; /* Smaller font size */
+            color: #6fb07f;
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            opacity: 0;
+        }
+
+        button:focus {
+            animation: extend 1s ease-in-out forwards;
+        }
+
+        button:focus > span {
+            animation: disappear 1s ease-in-out forwards;
+        }
+
+        button:focus > img {
+            animation: appear 1s ease-in-out forwards;
+        }
+
+        @keyframes extend {
+            0% {
+                width: 200px;
+                height: 80px;
+                border-radius: 50px;
+            }
+            10% {
+                width: 210px;
+                height: 90px;
+                background: #fff;
+                margin-left: -5px;
+                margin-top: -5px;
+            }
+            20% {
+                width: 200px;
+                height: 80px;
+                background: #6fb07f;
+                margin-left: 0px;
+                margin-top: 0px;
+            }
+            100% {
+                width: 100px; /* Smaller size */
+                height: 100px; /* Smaller size */
+                border-radius: 50%;
+                margin-left: 50px;
+                background: #6fb07f;
+            }
+        }
+
+        @keyframes disappear {
+            0% {
+                opacity: 1;
+            }
+            20% {
+                color: #fff;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+            }
+            70% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        section {
+            padding: 50px;
+            background: white;
+            color: #333;
+            display: none;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10; /* Ensure sections have a z-index */
+            position: relative; /* Ensure sections are positioned properly */
+            margin-top: -30px; /* Make sections slightly higher */
+        }
+
+        section.active {
+            display: block;
+            z-index: 100; /* Bring the active section above other content */
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #000428;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 20;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #004e92;
+        }
+
+        #home {
+            display: block;
+            padding: 50px;
+            text-align: center;
+        }
+
+        #features .feature-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        #features .feature-links a {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #004e92;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        #features .feature-links a:hover {
+            background: #6fb07f;
+        }
+
+        #contact p {
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000428;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Hide button on all sections except home */
+        #features .cont,
+        #about .cont,
+        #contact .cont {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <div class="comet-container">
+        <div class="comet" style="top: 10%; left: -10%; animation: cometTrail 8s linear infinite;"></div>
+        <div class="comet" style="top: 30%; left: 90%; animation: cometTrail 6s linear infinite; animation-direction: reverse;"></div>
+        <div class="comet" style="top: 50%; left: -15%; animation: cometTrail 7s linear infinite;"></div>
+        <div class="comet" style="top: 70%; left: 110%; animation: cometTrail 9s linear infinite; animation-direction: reverse;"></div>
+        <div class="comet" style="top: 90%; left: -5%; animation: cometTrail 10s linear infinite;"></div>
+    </div>
+
+    <header>
+        <h1>Welcome to Basudev's World</h1>
+    </header>
+
+    <main>
+        <div id="home">
+            <div class="typewriter">
+                <h1>Exploring Web Development with Basudev Bhandari</h1>
+            </div>
+
+            <div class="scrolling-text">
+                Check out my latest projects and innovations!
+            </div>
+        </div>
+        <section id="features">
+            <h2>Features</h2>
+            <div class="feature-links">
+                <a href="#">Feature 1</a>
+                <a href="#">Feature 2</a>
+                <a href="#">Feature 3</a>
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Feel free to reach out!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Designed with ❤️ by Basudev Bhandari</p>
+    </footer>
+
+</body>
+</html>

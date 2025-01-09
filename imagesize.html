@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Resizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            text-align: center;
+        }
+
+        header {
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        main {
+            margin: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="file"], select, button {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        input[type="file"], select {
+            width: 90%;
+        }
+
+        button {
+            background-color: #2575fc;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #1b59cc;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 1.2em;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.5); /* Edge effect */
+        }
+
+        .info {
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+
+        .download-button {
+            display: none;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-button:hover {
+            background-color: #218838;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <header>Photo Resizer</header>
+    <main>
+        <h2>Upload Your Photo</h2>
+        <form id="resizeForm">
+            <input type="file" id="photoInput" accept="image/*" required><br>
+            <label for="quality">Select Quality:</label>
+            <select id="quality" required>
+                <option value="0.9">High (90%)</option>
+                <option value="0.7">Medium (70%)</option>
+                <option value="0.5">Low (50%)</option>
+            </select><br>
+            <button type="submit">Resize Photo</button>
+        </form>
+        <canvas id="canvas" style="display: none;"></canvas>
+        <div class="info">
+            <p id="originalSize">Original Size: N/A</p>
+            <p id="resizedSize">Resized Size: N/A</p>
+        </div>
+        <img id="outputImage" alt="Resized Image">
+        <button id="downloadButton" class="download-button">Download Resized Photo</button>
+    </main>
+    <footer>Designed with ❤️ by Basudev Bhandari</footer>
+
+    <script>
+        document.getElementById('resizeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('photoInput');
+            const quality = parseFloat(document.getElementById('quality').value);
+
+            if (fileInput.files.length === 0) {
+                alert('Please upload a photo.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            // Display original file size
+            document.getElementById('originalSize').textContent = `Original Size: ${(file.size / 1024).toFixed(2)} KB`;
+
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.getElementById('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    const resizedImage = canvas.toDataURL('image/jpeg', quality);
+                    
+                    // Display resized image size
+                    const binaryString = atob(resizedImage.split(',')[1]);
+                    const resizedSize = binaryString.length / 1024; // Size in KB
+                    document.getElementById('resizedSize').textContent = `Resized Size: ${resizedSize.toFixed(2)} KB`;
+
+                    // Set resized image
+                    document.getElementById('outputImage').src = resizedImage;
+                    document.getElementById('outputImage').style.display = 'block';
+
+                    // Enable download button
+                    const downloadButton = document.getElementById('downloadButton');
+                    downloadButton.style.display = 'inline-block';
+                    downloadButton.onclick = function() {
+                        const link = document.createElement('a');
+                        link.href = resizedImage;
+                        link.download = 'resized-photo.jpg';
+                        link.click();
+                    };
+                };
+                img.src = event.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>

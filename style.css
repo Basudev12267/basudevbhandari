@@ -1,0 +1,210 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background: radial-gradient(circle, #000428, #004e92);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Stars background */
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    z-index: 1;
+}
+
+/* Scrolling text animation */
+.scrolling-text {
+    position: absolute;
+    top: 15vh;
+    width: 100%;
+    white-space: nowrap;
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    animation: scrolling 15s linear infinite;
+    text-align: center;
+}
+
+/* Typing effect */
+.typewriter h1 {
+    font-size: 50px;
+    overflow: hidden;
+    border-right: .15em solid #6fb07f;
+    white-space: nowrap;
+    margin: 0 auto;
+    width: 0;
+    animation: typing 3s steps(30) forwards, blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    to {
+        width: 28em;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+/* Button Styling */
+.cont {
+    position: relative;
+    width: 200px;
+    height: 80px;
+    margin: 20px auto;
+    z-index: 50;
+}
+
+button {
+    border-width: 1px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    background: #fff;
+    position: absolute;
+    border: 5px solid #6fb07f;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    font-size: 20px;
+}
+
+button > span {
+    font-size: 24px;
+    color: #6fb07f;
+}
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 0;
+}
+
+/* Button animations */
+button:focus {
+    animation: extend 1s ease-in-out forwards;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+    .scrolling-text {
+        font-size: 25px;
+        top: 10vh; /* Adjust position for tablets */
+    }
+
+    .typewriter h1 {
+        font-size: 40px; /* Reduce font size on tablets */
+    }
+
+    .cont {
+        width: 150px; /* Adjust button size */
+        height: 60px;
+    }
+
+    button {
+        font-size: 18px; /* Smaller button font size */
+    }
+
+    nav {
+        padding: 15px 0;
+    }
+
+    nav a {
+        font-size: 16px; /* Adjust nav links */
+    }
+
+    footer {
+        padding: 15px; /* Adjust footer padding */
+    }
+
+    section {
+        padding: 30px; /* Reduce section padding */
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile specific styling */
+    .scrolling-text {
+        font-size: 20px;
+        top: 8vh; /* Adjust position for mobile */
+    }
+
+    .typewriter h1 {
+        font-size: 30px; /* Further reduce font size */
+    }
+
+    .cont {
+        width: 120px; /* Adjust button size */
+        height: 50px;
+    }
+
+    button {
+        font-size: 16px; /* Further reduce button font size */
+    }
+
+    nav {
+        padding: 10px 0;
+        flex-direction: column; /* Stack the nav items vertically */
+    }
+
+    nav a {
+        font-size: 14px; /* Adjust nav links */
+        margin-bottom: 10px; /* Space out links */
+    }
+
+    footer {
+        padding: 10px; /* Adjust footer padding */
+    }
+
+    section {
+        padding: 20px; /* Reduce section padding */
+    }
+}
+
+/* For small mobile screens */
+@media (max-width: 480px) {
+    .scrolling-text {
+        font-size: 16px;
+        top: 5vh; /* Adjust position */
+    }
+
+    .typewriter h1 {
+        font-size: 24px; /* Smaller font size for small screens */
+    }
+
+    .cont {
+        width: 100px; /* Adjust button size */
+        height: 40px;
+    }
+
+    button {
+        font-size: 14px; /* Smaller font size for small screens */
+    }
+
+    nav {
+        padding: 8px 0;
+        flex-direction: column;
+        align-items: center; /* Center align nav items */
+    }
+
+    nav a {
+        font-size: 12px; /* Smaller font size for small screens */
+        margin-bottom: 8px; /* Space out links */
+    }
+
+    footer {
+        padding: 8px; /* Adjust footer padding */
+    }
+
+    section {
+        padding: 15px; /* Reduce section padding */
+    }
+}
