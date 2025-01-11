@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer </title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(45deg, #ff6b6b, #f06595);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+
+    .timer-container {
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timer-display {
+      font-size: 4em;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    button {
+      background-color: #ff6b6b;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 1.2em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2em;
+      text-align: center;
+      animation: floatUp 3s ease infinite alternate;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); }
+      to { transform: translateY(-5px); }
+    }
+
+    /* Lightning Edge Effect */
+    @keyframes lightning {
+      0% {
+        box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.6);
+        border: 3px solid #fff;
+      }
+      20% {
+        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8);
+        border: 5px solid #fff;
+      }
+      40% {
+        box-shadow: 0 0 25px 15px rgba(255, 255, 255, 1);
+        border: 5px solid #fff;
+      }
+      60% {
+        box-shadow: 0 0 35px 20px rgba(255, 255, 255, 0.8);
+        border: 5px solid #fff;
+      }
+      80% {
+        box-shadow: 0 0 50px 30px rgba(255, 255, 255, 0.6);
+        border: 3px solid #fff;
+      }
+      100% {
+        box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4);
+        border: 3px solid #fff;
+      }
+    }
+
+    .lightning-effect {
+      animation: lightning 1.5s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer-container">
+    <div class="timer-display lightning-effect">
+      <h1 id="timer">00:00</h1>
+    </div>
+    <div class="timer-controls">
+      <button id="start">Start</button>
+      <button id="pause">Pause</button>
+      <button id="reset">Reset</button>
+    </div>
+  </div>
+  <footer>
+    <p>Designed with ❤️ by Basudev Bhandari</p>
+  </footer>
+
+  <script>
+    let timer;
+    let seconds = 0;
+    let isRunning = false;
+    let startButton = document.getElementById('start');
+    let pauseButton = document.getElementById('pause');
+    let resetButton = document.getElementById('reset');
+    let display = document.getElementById('timer');
+
+    startButton.addEventListener('click', function() {
+      if (!isRunning) {
+        isRunning = true;
+        timer = setInterval(updateTime, 1000);
+      }
+    });
+
+    pauseButton.addEventListener('click', function() {
+      clearInterval(timer);
+      isRunning = false;
+    });
+
+    resetButton.addEventListener('click', function() {
+      clearInterval(timer);
+      seconds = 0;
+      isRunning = false;
+      display.textContent = '00:00';
+    });
+
+    function updateTime() {
+      seconds++;
+      let minutes = Math.floor(seconds / 60);
+      let remainingSeconds = seconds % 60;
+      display.textContent = `${formatTime(minutes)}:${formatTime(remainingSeconds)}`;
+    }
+
+    function formatTime(time) {
+      return time < 10 ? `0${time}` : time;
+    }
+  </script>
+</body>
+</html>

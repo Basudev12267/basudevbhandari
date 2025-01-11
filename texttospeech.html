@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text-to-Speech</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #141e30, #243b55);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Title Animation */
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+      margin-bottom: 20px;
+      color: #ff9c00;
+    }
+
+    /* Input and Button Styles */
+    .container {
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 1.2rem;
+      border: 2px solid #ff9c00;
+      border-radius: 5px;
+      outline: none;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px #ff9c00, 0 0 20px #ff9c00;
+    }
+
+    input[type="text"]:focus {
+      border-color: #ff4500;
+    }
+
+    button {
+      background-color: #ff9c00;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #ff9c00, 0 0 20px #ff9c00;
+    }
+
+    button:hover {
+      background-color: #ff4500;
+      box-shadow: 0 0 15px #ff4500, 0 0 25px #ff4500;
+    }
+
+    /* Footer Style */
+    footer {
+      position: fixed;
+      bottom: 10px;
+      text-align: center;
+      width: 100%;
+      font-size: 0.9rem;
+      color: #ff9c00;
+      animation: glow 2s infinite;
+    }
+
+    /* Keyframes for Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px #ff9c00, 0 0 20px #ff4500; }
+      50% { text-shadow: 0 0 20px #ff4500, 0 0 30px #ff9c00; }
+      100% { text-shadow: 0 0 10px #ff9c00, 0 0 20px #ff4500; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Title -->
+  <h1>Text-to-Speech Converter</h1>
+
+  <!-- Input and Button -->
+  <div class="container">
+    <input type="text" id="text-input" placeholder="Enter text to convert to speech">
+    <br>
+    <button onclick="convertToSpeech()">Speak Now</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>Made with ❤️ by Basudev Bhandari</footer>
+
+  <!-- JavaScript -->
+  <script>
+    function convertToSpeech() {
+      const text = document.getElementById("text-input").value;
+      if (!text) {
+        alert("Please enter some text!");
+        return;
+      }
+      const speech = new SpeechSynthesisUtterance(text);
+      speech.lang = "en-US"; // Set language
+      speech.pitch = 1; // Set pitch
+      speech.rate = 1; // Set rate
+      speech.volume = 1; // Set volume
+      window.speechSynthesis.speak(speech);
+    }
+  </script>
+</body>
+</html>
