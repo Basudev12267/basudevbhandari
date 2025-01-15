@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basudev Universe</title>
     <style>
+        /* Styling remains the same as before */
         body, html {
             margin: 0;
             padding: 0;
@@ -174,10 +175,14 @@
 
         // Sign Up with Google
         document.getElementById('google-signin-btn').addEventListener('click', () => {
+            console.log('Google sign-in button clicked');  // Debugging line
+
             auth.signInWithPopup(provider).then((result) => {
                 const user = result.user;
                 alert('Signed in as ' + user.displayName);
-                window.location.href = 'welcome.html'; // Redirect after successful sign-in
+
+                // After successful login, redirect to captcha.html
+                window.location.href = 'captcha.html'; // Redirect to captcha.html
             }).catch((error) => {
                 console.error(error.message);
                 alert('Error during sign-in: ' + error.message);
@@ -202,4 +207,4 @@
     </script>
 
 </body>
-            </html>
+</html>
