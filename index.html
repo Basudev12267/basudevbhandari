@@ -155,6 +155,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
 
     <script type="module">
+        import { initializeApp } from "firebase/app";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
@@ -167,17 +170,15 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // Google Sign-In Provider
-        const provider = new firebase.auth.GoogleAuthProvider();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
         // Sign Up with Google
         document.getElementById('google-signin-btn').addEventListener('click', () => {
             console.log('Google sign-in button clicked');  // Debugging line
 
-            auth.signInWithPopup(provider).then((result) => {
+            signInWithPopup(auth, provider).then((result) => {
                 const user = result.user;
                 alert('Signed in as ' + user.displayName);
 
@@ -207,4 +208,4 @@
     </script>
 
 </body>
-</html>
+            </html>
