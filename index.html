@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basudev Universe</title>
+    <link rel="icon" href="converted_image.png" type="image/png">
     <style>
-        /* Styling remains the same as before */
         body, html {
             margin: 0;
             padding: 0;
@@ -18,6 +18,7 @@
             justify-content: center;
             align-items: center;
             background: linear-gradient(to right, #ff7e5f, #feb47b);
+            transition: background 0.3s ease;
         }
 
         .login-container {
@@ -28,12 +29,6 @@
             border-radius: 10px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
-        }
-
-        .logo {
-            width: 150px;
-            height: auto;
-            margin-bottom: 20px;
         }
 
         h2 {
@@ -109,6 +104,23 @@
             text-decoration: underline;
         }
 
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: #f8f8f8;
+        }
+
         @media (max-width: 480px) {
             .login-container {
                 width: 80%;
@@ -127,9 +139,9 @@
 </head>
 <body>
 
-    <div class="login-container">
-        <img src="converted_image.png" alt="Basudev Universe Logo" class="logo" />
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
 
+    <div class="login-container">
         <h2>Please Login to Continue</h2>
         <p>Welcome! Please enter your credentials below.</p>
         <input type="text" class="input-field" id="username" placeholder="Username" required>
@@ -143,53 +155,12 @@
         <button class="login-btn" onclick="login()">Login</button>
         <button class="guest-btn" onclick="loginAsGuest()">Login as Guest</button>
 
-        <!-- Firebase Google Sign-In Button -->
-        <button class="login-btn" id="google-signin-btn">Sign Up with Google</button>
-
         <div class="footer">
             <span>Made with ❤️ by <a href="#">Basudev Bhandari</a></span>
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-
-    <script type="module">
-        import { initializeApp } from "firebase/app";
-        import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
-            authDomain: "basudev-universe.firebaseapp.com",
-            projectId: "basudev-universe",
-            storageBucket: "basudev-universe.firebasestorage.app",
-            messagingSenderId: "211358921963",
-            appId: "1:211358921963:web:6f17f25b48bb4949653aae",
-            measurementId: "G-MGEWM1HD00"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
-        // Sign Up with Google
-        document.getElementById('google-signin-btn').addEventListener('click', () => {
-            console.log('Google sign-in button clicked');  // Debugging line
-
-            signInWithPopup(auth, provider).then((result) => {
-                const user = result.user;
-                alert('Signed in as ' + user.displayName);
-
-                // After successful login, redirect to captcha.html
-                window.location.href = 'captcha.html'; // Redirect to captcha.html
-            }).catch((error) => {
-                console.error(error.message);
-                alert('Error during sign-in: ' + error.message);
-            });
-        });
-
+    <script>
         function login() {
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
@@ -205,7 +176,15 @@
         function loginAsGuest() {
             window.location.href = 'captcha.html';  // Redirect to captcha page
         }
+
+        function toggleTheme() {
+            if (document.body.style.background === "rgb(47, 79, 79)") {
+                document.body.style.background = "linear-gradient(to right, #ff7e5f, #feb47b)";
+            } else {
+                document.body.style.background = "rgb(47, 79, 79)";
+            }
+        }
     </script>
 
 </body>
-            </html>
+</html>
