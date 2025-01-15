@@ -127,7 +127,6 @@
 <body>
 
     <div class="login-container">
-        <!-- Add the logo here -->
         <img src="converted_image.png" alt="Basudev Universe Logo" class="logo" />
 
         <h2>Please Login to Continue</h2>
@@ -137,18 +136,54 @@
 
         <div class="checkbox-container">
             <input type="checkbox" id="agreeTerms">
-            <label for="agreeTerms">I agree to the <a href="#">Terms and Conditions</a></label>
+            <label for="agreeTerms">I agree to the <a href="https://www.termsfeed.com/live/f0c86947-a623-4156-b09c-947dcf04d40a" target="_blank">Terms and Conditions</a></label>
         </div>
 
         <button class="login-btn" onclick="login()">Login</button>
         <button class="guest-btn" onclick="loginAsGuest()">Login as Guest</button>
+
+        <!-- Firebase Google Sign-In Button -->
+        <button class="login-btn" id="google-signin-btn">Sign Up with Google</button>
 
         <div class="footer">
             <span>Made with ❤️ by <a href="#">Basudev Bhandari</a></span>
         </div>
     </div>
 
-    <script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
+            authDomain: "basudev-universe.firebaseapp.com",
+            projectId: "basudev-universe",
+            storageBucket: "basudev-universe.firebasestorage.app",
+            messagingSenderId: "211358921963",
+            appId: "1:211358921963:web:6f17f25b48bb4949653aae",
+            measurementId: "G-MGEWM1HD00"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Google Sign-In Provider
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        // Sign Up with Google
+        document.getElementById('google-signin-btn').addEventListener('click', () => {
+            auth.signInWithPopup(provider).then((result) => {
+                const user = result.user;
+                alert('Signed in as ' + user.displayName);
+                window.location.href = 'welcome.html'; // Redirect after successful sign-in
+            }).catch((error) => {
+                console.error(error.message);
+                alert('Error during sign-in: ' + error.message);
+            });
+        });
+
         function login() {
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
@@ -166,27 +201,5 @@
         }
     </script>
 
-    <!-- Firebase Script -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
-        
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
-            authDomain: "basudev-universe.firebaseapp.com",
-            projectId: "basudev-universe",
-            storageBucket: "basudev-universe.firebasestorage.app",
-            messagingSenderId: "211358921963",
-            appId: "1:211358921963:web:6f17f25b48bb4949653aae",
-            measurementId: "G-MGEWM1HD00"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-    </script>
-
 </body>
-    </html>
+            </html>
