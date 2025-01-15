@@ -18,8 +18,6 @@
             align-items: center;
             background: linear-gradient(to right, #ff7e5f, #feb47b);
         }
-<img src="converted_image.png" alt="Basudev Universe Logo" />
-
 
         .login-container {
             width: 100%;
@@ -29,6 +27,12 @@
             border-radius: 10px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
         }
 
         h2 {
@@ -123,6 +127,9 @@
 <body>
 
     <div class="login-container">
+        <!-- Add the logo here -->
+        <img src="converted_image.png" alt="Basudev Universe Logo" class="logo" />
+
         <h2>Please Login to Continue</h2>
         <p>Welcome! Please enter your credentials below.</p>
         <input type="text" class="input-field" id="username" placeholder="Username" required>
