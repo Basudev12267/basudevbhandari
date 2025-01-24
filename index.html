@@ -114,12 +114,13 @@
                 try {
                     // Trigger reCAPTCHA validation
                     grecaptcha.enterprise.ready(async () => {
-                        const token = await grecaptcha.enterprise.execute('6Lc5xMEqAAAAAP5niB7lhb9Fucmj9ycLoT3F3kxS', { action: 'LOGIN' });
+                        const token = await grecaptcha.enterprise.execute('6Lc5xMEqAAAAAIPJUylqBhsXVFEAHXqSjFK6Nouz', { action: 'LOGIN' });
                         const userCredential = await auth.signInWithEmailAndPassword(email, password);
                         const user = userCredential.user;
 
                         console.log("User logged in:", user);
-                        // Redirect to home page on successful login
+
+                        // Redirect to mainpage.html on successful login
                         window.location.href = "mainpage.html";
                     });
                 } catch (error) {
