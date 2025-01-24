@@ -1,187 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-adsense-account" content="ca-pub-5539548565697603">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5539548565697603"
-     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basudev Universe</title>
-    <link rel="icon" href="converted_image.png" type="image/png">
+    <title>Login Page</title>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LciiMEqAAAAAIPJUylqBhsXVFEAHXqSjFK6Nouz"></script>
+
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Arial', sans-serif;
+        /* CSS Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4F4F4;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            transition: background 0.3s ease;
+            height: 100vh;
+            margin: 0;
         }
-
         .login-container {
+            background: linear-gradient(135deg, #56ccf2, #2f80ed);
+            padding: 30px;
+            border-radius: 15px;
             width: 100%;
             max-width: 400px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
-
         h2 {
-            font-size: 32px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        p {
-            color: #777;
-            font-size: 16px;
-            margin-bottom: 30px;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            background-color: #f8f8f8;
-            color: #333;
-            transition: all 0.3s ease;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: #ff7e5f;
-            background-color: #fff;
-        }
-
-        .login-btn, .guest-btn {
-            width: 100%;
-            padding: 15px;
-            margin: 15px 0;
-            background-color: #ff7e5f;
             color: white;
-            font-size: 18px;
-            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #56ccf2;
+            color: white;
+            padding: 10px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            width: 100%;
         }
-
-        .login-btn:hover, .guest-btn:hover {
-            background-color: #feb47b;
-            transform: translateY(-3px);
+        button:hover {
+            background-color: #2f80ed;
         }
-
-        .checkbox-container {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .checkbox-container input {
-            margin-right: 10px;
-        }
-
-        .footer {
-            margin-top: 20px;
+        .error-message {
+            color: red;
             font-size: 14px;
-            color: #888;
         }
-
-        .footer a {
-            color: #ff7e5f;
+        .register-link {
+            color: #56ccf2;
             text-decoration: none;
         }
-
-        .footer a:hover {
+        .register-link:hover {
             text-decoration: underline;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #fff;
-            color: #333;
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background-color: #f8f8f8;
-        }
-
-        @media (max-width: 480px) {
-            .login-container {
-                width: 80%;
-                padding: 20px;
-            }
-
-            .input-field {
-                font-size: 14px;
-            }
-
-            .login-btn, .guest-btn {
-                font-size: 16px;
-            }
         }
     </style>
 </head>
 <body>
 
-    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
-
     <div class="login-container">
-        <h2>Please Login to Continue</h2>
-        <p>Welcome! Please enter your credentials below.</p>
-        <input type="text" class="input-field" id="username" placeholder="Username" required>
-        <input type="password" class="input-field" id="password" placeholder="Password" required>
+        <h2>Login</h2>
 
-        <div class="checkbox-container">
-            <input type="checkbox" id="agreeTerms">
-            <label for="agreeTerms">I agree to the <a href="https://www.termsfeed.com/live/f0c86947-a623-4156-b09c-947dcf04d40a" target="_blank">Terms and Conditions</a></label>
-        </div>
+        <!-- Email and Password Fields -->
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
 
-        <button class="login-btn" onclick="login()">Login</button>
-        <button class="guest-btn" onclick="loginAsGuest()">Login as Guest</button>
+        <!-- Google reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="6Lc5xMEqAAAAAP5niB7lhb9Fucmj9ycLoT3F3kxS" data-action="LOGIN"></div>
 
-        <div class="footer">
-            <span>Made with ❤️ by <a href="#">Basudev Bhandari</a></span>
-        </div>
+        <br/>
+        <button onclick="onLoginClick()">Login</button>
+
+        <p>Don't have an account? <a href="register.html" class="register-link">Register</a></p>
+        <p class="error-message" id="error-message"></p>
     </div>
 
+    <!-- Firebase Setup -->
     <script>
-        function login() {
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            var agreeTerms = document.getElementById('agreeTerms').checked;
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
+            authDomain: "basudev-universe.firebaseapp.com",
+            projectId: "basudev-universe",
+            storageBucket: "basudev-universe.appspot.com",
+            messagingSenderId: "211358921963",
+            appId: "1:211358921963:web:6f17f25b48bb4949653aae",
+            measurementId: "G-MGEWM1HD00"
+        };
 
-            if (username && password && agreeTerms) {
-                window.location.href = 'captcha.html';  // Redirect to captcha page
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        
+        // Initialize Firebase Authentication
+        const auth = firebase.auth();
+
+        // Function to Handle Login
+        async function onLoginClick() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            if (email && password) {
+                try {
+                    // Trigger reCAPTCHA validation
+                    grecaptcha.enterprise.ready(async () => {
+                        const token = await grecaptcha.enterprise.execute('6Lc5xMEqAAAAAP5niB7lhb9Fucmj9ycLoT3F3kxS', { action: 'LOGIN' });
+                        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                        const user = userCredential.user;
+
+                        console.log("User logged in:", user);
+                        // Redirect to home page on successful login
+                        window.location.href = "mainpage.html";
+                    });
+                } catch (error) {
+                    document.getElementById("error-message").innerText = error.message;
+                }
             } else {
-                alert("Please fill in both username, password, and agree to the terms.");
-            }
-        }
-
-        function loginAsGuest() {
-            window.location.href = 'captcha.html';  // Redirect to captcha page
-        }
-
-        function toggleTheme() {
-            if (document.body.style.background === "rgb(47, 79, 79)") {
-                document.body.style.background = "linear-gradient(to right, #ff7e5f, #feb47b)";
-            } else {
-                document.body.style.background = "rgb(47, 79, 79)";
+                document.getElementById("error-message").innerText = "Please enter both email and password.";
             }
         }
     </script>
