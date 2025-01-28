@@ -2,13 +2,13 @@
 
 // Firebase Configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
-    authDomain: "basudev-universe.firebaseapp.com",
-    projectId: "basudev-universe",
-    storageBucket: "basudev-universe.appspot.com",
-    messagingSenderId: "211358921963",
-    appId: "1:211358921963:web:6f17f25b48bb4949653aae",
-    measurementId: "G-MGEWM1HD00"
+    apiKey: "AIzaSyDZU5Hoiqmf6LAsDSe2G--NDqc36D6e_2Y",
+    authDomain: "basudev-login.firebaseapp.com",
+    projectId: "basudev-login",
+    storageBucket: "basudev-login.firebasestorage.app",
+    messagingSenderId: "1065816186652",
+    appId: "1:1065816186652:web:14cbfa6b78f297b750a4d9",
+    measurementId: "G-J60P5K8QP9"
 };
 
 // Initialize Firebase
