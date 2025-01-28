@@ -1,7 +1,5 @@
-// auth.js
-
-// Firebase Configuration
-const firebaseConfig = {
+// Setting up Firebase with your website
+const firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyDZU5Hoiqmf6LAsDSe2G--NDqc36D6e_2Y",
     authDomain: "basudev-login.firebaseapp.com",
     projectId: "basudev-login",
@@ -9,40 +7,68 @@ const firebaseConfig = {
     messagingSenderId: "1065816186652",
     appId: "1:1065816186652:web:14cbfa6b78f297b750a4d9",
     measurementId: "G-J60P5K8QP9"
-};
+});
+const db = firebaseApp.firestore();
+const auth = firebaseApp.auth();
 
-// Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
+// Sign up function
+const signUp = () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const errorMessage = document.getElementById("error-message");
 
-// Initialize Firebase Authentication
-const auth = firebase.auth();
-
-// Firebase reCAPTCHA Site Key
-const recaptchaSiteKey = '6Lc5xMEqAAAAAIPJUylqBhsXVFEAHXqSjFK6Nouz';
-
-// Register User Function
-async function registerUser(email, password) {
-    try {
-        const token = await executeRecaptcha('REGISTER');
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        return userCredential.user;
-    } catch (error) {
-        throw error;
+    // Check if email and password are not empty
+    if (email === "" || password === "") {
+        errorMessage.innerText = "Please fill in both email and password.";
+        return;
     }
+
+    // Firebase code for sign up
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((result) => {
+            // Signed up successfully
+            console.log(result);
+            document.write("You are Signed Up");
+            setTimeout(() => {
+                window.location.href = "index.html"; // Redirect to login page after sign-up
+            }, 2000);
+        })
+        .catch((error) => {
+            // Handle errors
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error(errorCode, errorMessage);
+            document.getElementById("error-message").innerText = `Error: ${errorMessage}`;
+        });
 }
 
-// Login User Function
-async function loginUser(email, password) {
-    try {
-        const token = await executeRecaptcha('LOGIN');
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        return userCredential.user;
-    } catch (error) {
-        throw error;
-    }
-}
+// Sign In function
+const signIn = () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const errorMessage = document.getElementById("error-message");
 
-// reCAPTCHA Execution Function
-async function executeRecaptcha(action) {
-    return grecaptcha.enterprise.execute(recaptchaSiteKey, { action: action });
+    // Check if email and password are not empty
+    if (email === "" || password === "") {
+        errorMessage.innerText = "Please fill in both email and password.";
+        return;
+    }
+
+    // Firebase code for sign in
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((result) => {
+            // Signed in successfully
+            console.log(result);
+            document.write("You are Signed In");
+            setTimeout(() => {
+                window.location.href = "time.html"; // Redirect to time.html after successful sign-in
+            }, 2000);
+        })
+        .catch((error) => {
+            // Handle errors
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error(errorCode, errorMessage);
+            document.getElementById("error-message").innerText = `Error: ${errorMessage}`;
+        });
 }
