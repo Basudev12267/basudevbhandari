@@ -8,6 +8,7 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script type="module" src="auth.js"></script>
 
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/enterprise.js?render=6LciiMEqAAAAAIPJUylqBhsXVFEAHXqSjFK6Nouz"></script>
@@ -24,7 +25,6 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            transition: background 0.5s ease, color 0.5s ease;
         }
 
         /* Division Container */
@@ -32,11 +32,10 @@
             background: rgba(255, 255, 255, 0.8); /* White background with transparency */
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Smooth shadow */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
             text-align: center;
-            transition: background 0.5s ease, color 0.5s ease;
         }
 
         /* Title Styling */
@@ -56,7 +55,6 @@
             border: 1px solid #ddd;
             background: #f9f9f9;
             font-size: 14px;
-            box-sizing: border-box;
         }
 
         input:focus {
@@ -66,23 +64,23 @@
         }
 
         /* Login Button Styling */
-        a.button {
+        .button {
             display: inline-block;
             background: linear-gradient(135deg, #56ccf2, #2f80ed);
             color: white;
             padding: 12px 20px;
             border-radius: 8px;
-            text-decoration: none;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             text-align: center;
             transition: background 0.3s ease;
+            border: none;
         }
 
-        a.button:hover {
-            background: linear-gradient(135deg, #2f80ed, #56ccf2); /* Gradient flip */
+        .button:hover {
+            background: linear-gradient(135deg, #2f80ed, #56ccf2);
         }
 
         /* Register Link */
@@ -138,8 +136,8 @@
             <div class="g-recaptcha" data-sitekey="6Lc5xMEqAAAAAP5niB7lhb9Fucmj9ycLoT3F3kxS" data-action="LOGIN"></div>
 
             <br/>
-            <!-- Anchor tag defaulting to mainpage.html -->
-            <a href="mainpage.html" class="button" id="login-button" onclick="onLoginClick(event)">Login</a>
+            <!-- Login Button -->
+            <button class="button" onclick="onLoginClick()">Login</button>
 
             <p>Don't have an account? <a href="register.html" class="register-link">Register</a></p>
             <p class="error-message" id="error-message"></p>
@@ -148,42 +146,15 @@
 
     <!-- Firebase Setup -->
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
-            authDomain: "basudev-universe.firebaseapp.com",
-            projectId: "basudev-universe",
-            storageBucket: "basudev-universe.appspot.com",
-            messagingSenderId: "211358921963",
-            appId: "1:211358921963:web:6f17f25b48bb4949653aae",
-            measurementId: "G-MGEWM1HD00"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        
-        // Initialize Firebase Authentication
-        const auth = firebase.auth();
-
-        // Function to Handle Login
-        async function onLoginClick(event) {
-            event.preventDefault(); // Prevent default anchor behavior
-
+        async function onLoginClick() {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            
+
             if (email && password) {
                 try {
-                    // Trigger reCAPTCHA validation
                     grecaptcha.enterprise.ready(async () => {
                         const token = await grecaptcha.enterprise.execute('6Lc5xMEqAAAAAIPJUylqBhsXVFEAHXqSjFK6Nouz', { action: 'LOGIN' });
-                        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                        const user = userCredential.user;
-
-                        console.log("User logged in:", user);
-
-                        // Allow navigation after successful login
-                        document.getElementById("login-button").removeAttribute("onclick");
+                        await loginUser(email, password);
                     });
                 } catch (error) {
                     document.getElementById("error-message").innerText = error.message;
@@ -193,6 +164,5 @@
             }
         }
     </script>
-
 </body>
 </html>

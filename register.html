@@ -8,12 +8,12 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script type="module" src="auth.js"></script>
 
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/enterprise.js?render=6LciiMEqAAAAAIPJUylqBhsXVFEAHXqSjFK6Nouz"></script>
 
     <style>
-        /* General Body Styling with Background Image */
         body {
             font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
@@ -24,22 +24,18 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* Division Container */
         .register-container {
-            background: rgba(255, 255, 255, 0.8); /* White background with transparency */
+            background: rgba(255, 255, 255, 0.8);
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Smooth shadow */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
             text-align: center;
-            transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* Title Styling */
         h2 {
             font-size: 24px;
             color: #333333;
@@ -47,7 +43,6 @@
             font-weight: bold;
         }
 
-        /* Input Fields */
         input {
             width: 100%;
             padding: 12px 15px;
@@ -56,7 +51,6 @@
             border: 1px solid #ddd;
             background: #f9f9f9;
             font-size: 14px;
-            box-sizing: border-box;
         }
 
         input:focus {
@@ -65,7 +59,6 @@
             background: #ffffff;
         }
 
-        /* Register Button Styling */
         button {
             display: inline-block;
             background: linear-gradient(135deg, #56ccf2, #2f80ed);
@@ -77,50 +70,23 @@
             cursor: pointer;
             width: 100%;
             text-align: center;
-            transition: background 0.3s ease;
-            border: none;
         }
 
-        button:hover {
-            background: linear-gradient(135deg, #2f80ed, #56ccf2); /* Gradient flip */
-        }
-
-        /* Login Link */
         .login-link {
             color: #007bff;
             font-size: 14px;
             text-decoration: none;
             margin-top: 15px;
-            display: inline-block;
         }
 
         .login-link:hover {
             text-decoration: underline;
         }
 
-        /* Error Message */
         .error-message {
             color: red;
             font-size: 14px;
             margin-top: 10px;
-        }
-
-        /* Extra Styling Outside Division */
-        .outer-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            padding: 20px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .register-container {
-                padding: 30px;
-                max-width: 90%;
-            }
         }
     </style>
 </head>
@@ -130,70 +96,41 @@
         <div class="register-container">
             <h2>Register</h2>
 
-            <!-- Email, Password and Confirm Password Fields -->
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
             <input type="password" id="confirm-password" placeholder="Confirm Password" required>
 
-            <!-- Google reCAPTCHA -->
-            <div class="g-recaptcha" data-sitekey="6Lc5xMEqAAAAAP5niB7lhb9Fucmj9ycLoT3F3kxS" data-action="REGISTER"></div>
-
             <br/>
-            <!-- Register Button -->
             <button onclick="onRegisterClick()">Register</button>
 
-            <p>Already have an account? <a href="login.html" class="login-link">Login</a></p>
-            <p class="error-message" id="error-message"></p>
+            <p>Already have an account? <a href="index.html" class="login-link">Login</a></p>
+            <p class="error-message" id="register-error-message"></p>
         </div>
     </div>
 
-    <!-- Firebase Setup -->
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
-            authDomain: "basudev-universe.firebaseapp.com",
-            projectId: "basudev-universe",
-            storageBucket: "basudev-universe.appspot.com",
-            messagingSenderId: "211358921963",
-            appId: "1:211358921963:web:6f17f25b48bb4949653aae",
-            measurementId: "G-MGEWM1HD00"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        
-        // Initialize Firebase Authentication
-        const auth = firebase.auth();
-
-        // Function to Handle Registration
         async function onRegisterClick() {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirm-password").value;
 
-            if (email && password && confirmPassword) {
-                if (password === confirmPassword) {
-                    try {
-                        // Trigger reCAPTCHA validation
-                        grecaptcha.enterprise.ready(async () => {
-                            const token = await grecaptcha.enterprise.execute('6Lc5xMEqAAAAAIPJUylqBhsXVFEAHXqSjFK6Nouz', { action: 'REGISTER' });
-                            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                            const user = userCredential.user;
+            if (password !== confirmPassword) {
+                document.getElementById("register-error-message").innerText = "Passwords do not match!";
+                return;
+            }
 
-                            console.log("User registered:", user);
-
-                            // Redirect to login.html (Login page) on successful registration
-                            window.location.href = "login.html";
-                        });
-                    } catch (error) {
-                        document.getElementById("error-message").innerText = error.message;
-                    }
-                } else {
-                    document.getElementById("error-message").innerText = "Passwords do not match.";
+            if (email && password) {
+                try {
+                    grecaptcha.enterprise.ready(async () => {
+                        const token = await grecaptcha.enterprise.execute('6Lc5xMEqAAAAAIPJUylqBhsXVFEAHXqSjFK6Nouz', { action: 'REGISTER' });
+                        await registerUser(email, password);
+                        window.location.href = "index.html"; // Redirect to login after successful registration
+                    });
+                } catch (error) {
+                    document.getElementById("register-error-message").innerText = error.message;
                 }
             } else {
-                document.getElementById("error-message").innerText = "Please fill in all fields.";
+                document.getElementById("register-error-message").innerText = "Please enter both email and password.";
             }
         }
     </script>
