@@ -24,34 +24,6 @@
       overflow: hidden;
     }
 
-    .typewriter {
-      font-size: 2rem;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: .15em solid #fff;
-      width: 0;
-      animation: typing 12s steps(60) 1s forwards, blinkCaret 0.75s step-end infinite;
-      max-width: 80%; /* Ensure it does not stretch too far */
-      margin-bottom: 20px;
-      color: #FF6347; /* Start with a default color */
-    }
-
-    @keyframes typing {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100%;
-      }
-    }
-
-    @keyframes blinkCaret {
-      50% {
-        border-color: transparent;
-      }
-    }
-
     .menu-icon {
       position: absolute;
       top: 15px;
@@ -186,8 +158,6 @@
   </style>
 </head>
 <body>
-  <div class="typewriter" id="typewriter"></div>
-
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
   <div class="nav-menu" id="nav-menu">
@@ -205,46 +175,6 @@
   <footer> Made with ❤️ by Basudev Bhandari </footer>
 
   <script>
-    const text = "Bhandaribasudev.com.np welcomes you. You can directly access our site by searching in google. Click in ☰ for navigation menu. Enjoy your time.";
-    const words = text.split(' ');
-    const typewriterElement = document.getElementById('typewriter');
-    let i = 0;
-    let lineCount = 0;
-
-    function typeWriter() {
-      const maxWordsPerLine = 7;
-      let currentLine = words.slice(lineCount * maxWordsPerLine, (lineCount + 1) * maxWordsPerLine).join(' ');
-
-      if (i < currentLine.length) {
-        let currentLetter = currentLine.charAt(i);
-        
-        let span = document.createElement('span');
-        span.textContent = currentLetter;
-        
-        span.style.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-        typewriterElement.appendChild(span);
-        
-        i++;
-        setTimeout(typeWriter, 150); // Slow typing speed
-      } else {
-        lineCount++;
-        i = 0;
-
-        if (lineCount < Math.ceil(words.length / maxWordsPerLine)) {
-          setTimeout(() => {
-            typewriterElement.innerHTML += "<br>"; // Change line after 7 words
-            typeWriter();
-          }, 500); // Short delay before the next line
-        } else {
-          setTimeout(() => {
-            typewriterElement.style.display = 'none'; // Hide the message after typing
-          }, 500); // Delay before hiding the message
-        }
-      }
-    }
-
-    typeWriter();
-
     function toggleMenu() {
       const menu = document.getElementById('nav-menu');
       menu.classList.toggle('open');
@@ -252,6 +182,6 @@
   </script>
   <script>
     (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="n-yag5M_7OrtxSx0eBH3m";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-    </script>
+  </script>
 </body>
 </html>
