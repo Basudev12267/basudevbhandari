@@ -22,48 +22,33 @@
       align-items: center;
       flex-direction: column;
       overflow: hidden;
-      transition: background-color 0.5s ease, color 0.5s ease;
     }
 
-    body.dark-mode {
-      background-color: #2c3e50;
-      color: white;
-    }
-
-    .scrolling-text {
-      position: absolute;
-      top: 10px;
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      font-size: 1.8rem; /* Smaller font size */
+    .typewriter {
+      font-size: 2rem;
       text-align: center;
-      animation: scrollText 12s linear infinite; /* Slower speed */
-      font-weight: bold;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-      color: #ffffff; /* Ensured visibility of text */
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: .15em solid #fff;
+      width: 0;
+      animation: typing 12s steps(60) 1s forwards, blinkCaret 0.75s step-end infinite;
+      max-width: 80%; /* Ensure it does not stretch too far */
+      margin-bottom: 20px;
+      color: #FF6347; /* Start with a default color */
     }
 
-    @keyframes scrollText {
-      0% {
-        transform: translateX(100%);
-        color: #f39c12;
+    @keyframes typing {
+      from {
+        width: 0;
       }
-      25% {
-        transform: translateX(0%);
-        color: #e74c3c;
+      to {
+        width: 100%;
       }
+    }
+
+    @keyframes blinkCaret {
       50% {
-        transform: translateX(-100%);
-        color: #8e44ad;
-      }
-      75% {
-        transform: translateX(0%);
-        color: #2ecc71;
-      }
-      100% {
-        transform: translateX(100%);
-        color: #f39c12;
+        border-color: transparent;
       }
     }
 
@@ -71,16 +56,6 @@
       position: absolute;
       top: 15px;
       right: 15px;
-      font-size: 4rem;
-      cursor: pointer;
-      color: white;
-      z-index: 10;
-    }
-
-    .close-icon {
-      position: absolute;
-      top: 15px;
-      left: 15px;
       font-size: 4rem;
       cursor: pointer;
       color: white;
@@ -127,8 +102,8 @@
     }
 
     .photo-circle {
-      width: 200px; /* Reduced size */
-      height: 200px; /* Reduced size */
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       background-image: url('download.png');
       background-size: cover;
@@ -138,7 +113,7 @@
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
       animation: lightning 1.5s infinite, colorCircle 2s infinite;
       position: absolute;
-      left: 10%; /* Moved slightly left */
+      left: 10%;
     }
 
     @keyframes lightning {
@@ -185,8 +160,8 @@
       }
 
       .photo-circle {
-        width: 180px; /* Adjusted size */
-        height: 180px; /* Adjusted size */
+        width: 180px;
+        height: 180px;
       }
     }
 
@@ -204,19 +179,16 @@
       }
 
       .photo-circle {
-        width: 160px; /* Adjusted size */
-        height: 160px; /* Adjusted size */
+        width: 160px;
+        height: 160px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="scrolling-text" id="scrolling-text">
-    Bhandaribasudev.com.np welcomes you! You can directly access our site by searching on Google. Click on the three-line icon (☰) to open the menu.
-  </div>
+  <div class="typewriter" id="typewriter"></div>
 
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
-  <div class="close-icon hidden" onclick="closeMenu()">×</div>
 
   <div class="nav-menu" id="nav-menu">
     <a href="#">Home</a>
@@ -233,21 +205,53 @@
   <footer> Made with ❤️ by Basudev Bhandari </footer>
 
   <script>
+    const text = "Bhandaribasudev.com.np welcomes you. You can directly access our site by searching in google. Click in ☰ for navigation menu. Enjoy your time.";
+    const words = text.split(' ');
+    const typewriterElement = document.getElementById('typewriter');
+    let i = 0;
+    let lineCount = 0;
+
+    function typeWriter() {
+      const maxWordsPerLine = 7;
+      let currentLine = words.slice(lineCount * maxWordsPerLine, (lineCount + 1) * maxWordsPerLine).join(' ');
+
+      if (i < currentLine.length) {
+        let currentLetter = currentLine.charAt(i);
+        
+        let span = document.createElement('span');
+        span.textContent = currentLetter;
+        
+        span.style.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        typewriterElement.appendChild(span);
+        
+        i++;
+        setTimeout(typeWriter, 150); // Slow typing speed
+      } else {
+        lineCount++;
+        i = 0;
+
+        if (lineCount < Math.ceil(words.length / maxWordsPerLine)) {
+          setTimeout(() => {
+            typewriterElement.innerHTML += "<br>"; // Change line after 7 words
+            typeWriter();
+          }, 500); // Short delay before the next line
+        } else {
+          setTimeout(() => {
+            typewriterElement.style.display = 'none'; // Hide the message after typing
+          }, 500); // Delay before hiding the message
+        }
+      }
+    }
+
+    typeWriter();
+
     function toggleMenu() {
       const menu = document.getElementById('nav-menu');
-      const closeIcon = document.querySelector('.close-icon');
-
       menu.classList.toggle('open');
-      closeIcon.classList.remove('hidden');
-    }
-
-    function closeMenu() {
-      const menu = document.getElementById('nav-menu');
-      const closeIcon = document.querySelector('.close-icon');
-
-      menu.classList.remove('open');
-      closeIcon.classList.add('hidden');
     }
   </script>
+  <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="n-yag5M_7OrtxSx0eBH3m";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
 </body>
 </html>
