@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right, #141e30, #243b55);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 20%, transparent 80%);
+      background-size: 150px 150px;
+      animation: moveBg 10s linear infinite;
+      z-index: 1;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      width: 300%;
+      height: 300%;
+      background: conic-gradient(from 0deg, rgba(255, 0, 150, 0.1), rgba(0, 204, 255, 0.1), rgba(255, 255, 0, 0.1), rgba(255, 0, 150, 0.1));
+      animation: rotateBg 20s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes moveBg {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(50px, 50px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes rotateBg {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted size */
+      gap: 20px;
+      width: 90%;
+      max-width: 1200px;
+      animation: fadeIn 1.5s ease-in-out;
+      z-index: 2;
+      position: relative;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px; /* Reduced padding */
+      text-align: center;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px) scale(1.1);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .feature-card a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .feature-card a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background: #fff;
+      transition: width 0.3s;
+    }
+
+    .feature-card a:hover::after {
+      width: 100%;
+    }
+
+    .feature-card:hover {
+      animation: glow 1.5s infinite;
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px #ff00ff; }
+      25% { box-shadow: 0 0 10px #00ffff; }
+      50% { box-shadow: 0 0 10px #ffff00; }
+      75% { box-shadow: 0 0 10px #ff00ff; }
+      100% { box-shadow: 0 0 10px #00ffff; }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    footer span {
+      color: #ff00ff;
+      font-weight: bold;
+    }
+
+    .features-heading {
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 2rem;
+      color: #fff;
+      font-weight: bold;
+      z-index: 3;
+    }
+  </style>
+</head>
+<body>
+  <div class="features-heading">Features</div>
+
+  <div class="features-container">
+    <div class="feature-card">
+      <a href="factgenerator.html" target="_blank">Fact Generator</a>
+    </div>
+    <div class="feature-card">
+      <a href="namegenerator.html" target="_blank">Unique Name Generator</a>
+    </div>
+    <div class="feature-card">
+      <a href="password.html" target="_blank">Password Generator</a>
+    </div>
+    <div class="feature-card">
+      <a href="quiz.html" target="_blank">Quiz</a>
+    </div>
+    <div class="feature-card">
+      <a href="speed.html" target="_blank">Check Typing Speed</a>
+    </div>
+    <div class="feature-card">
+      <a href="story.html" target="_blank">Story</a>
+    </div>
+    <div class="feature-card">
+      <a href="essay.html" target="_blank">Essay</a>
+    </div>
+    <div class="feature-card">
+      <a href="cricketquiz.html" target="_blank">Cricket Quiz</a>
+    </div>
+    <div class="feature-card">
+      <a href="poem.html" target="_blank">Poem</a>
+    </div>
+    <div class="feature-card">
+      <a href="tictactoe.html" target="_blank">Tic Tac Toe</a>
+    </div>
+    <div class="feature-card">
+      <a href="game2.html" target="_blank">Guess the Colour</a>
+    </div>
+    <div class="feature-card">
+      <a href="cricket1.html" target="_blank">Guess the Cricketers</a>
+    </div>
+    <div class="feature-card">
+      <a href="gmail.html" target="_blank">Random Gmail</a>
+    </div>
+    <div class="feature-card">
+      <a href="unitconverter.html" target="_blank">Unit Converter</a>
+    </div>
+    <div class="feature-card">
+      <a href="urlshortner.html" target="_blank">URL Shortener</a>
+    </div>
+    <div class="feature-card">
+      <a href="imageformat.html" target="_blank">Change Image Format</a>
+    </div>
+    <div class="feature-card">
+      <a href="imagesize.html" target="_blank">Reduce Image Size</a>
+    </div>
+    <div class="feature-card">
+      <a href="image.html" target="_blank">AI Image</a>
+    </div>
+    <div class="feature-card">
+      <a href="speech.html" target="_blank">Speech to Text</a>
+    </div>
+    <div class="feature-card">
+      <a href="call.html" target="_blank">Video Call</a>
+    </div>
+    <div class="feature-card">
+      <a href="movie.html" target="_blank">Movie</a>
+    </div>
+    <div class="feature-card">
+      <a href="timer.html" target="_blank">Timer</a>
+    </div>
+    <div class="feature-card">
+      <a href="calculator.html" target="_blank">Calculator</a>
+    </div>
+    <div class="feature-card">
+      <a href="texttospeech.html" target="_blank">Text to Speech</a>
+    </div>
+    <div class="feature-card">
+      <a href="#">Stay tuned for more</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Features | <span>Made with ❤️ by Basudev Bhandari</span></p>
+  </footer>
+</body>
+</html>
