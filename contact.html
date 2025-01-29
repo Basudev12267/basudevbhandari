@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  
+  <!-- Firebase Scripts -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqi2Di1GMRSXk_wQ1GF8BG46B36D74EW4",
+      authDomain: "basudev-universe.firebaseapp.com",
+      databaseURL: "https://basudev-universe-default-rtdb.firebaseio.com",
+      projectId: "basudev-universe",
+      storageBucket: "basudev-universe.firebasestorage.app",
+      messagingSenderId: "211358921963",
+      appId: "1:211358921963:web:6f17f25b48bb4949653aae",
+      measurementId: "G-MGEWM1HD00"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Handle Form Submission
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Get form values
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        try {
+          // Save data to Firestore
+          await addDoc(collection(db, "contacts"), {
+            name: name,
+            email: email,
+            message: message,
+            timestamp: serverTimestamp(),
+          });
+          alert('Message sent successfully!');
+          e.target.reset(); // Clear form
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Failed to send message. Try again.');
+        }
+      });
+    });
+  </script>
+
+  <style>
+    /* Body Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(120deg, #1f1c2c, #928dab);
+      color: #fff;
+    }
+
+    /* Form Container */
+    .contact-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      padding: 20px 30px;
+      width: 400px;
+      text-align: center;
+    }
+
+    /* Form Title */
+    .contact-container h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #ffcb74;
+    }
+
+    /* Input Fields */
+    .contact-container input,
+    .contact-container textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Placeholder Text */
+    ::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Submit Button */
+    .contact-container button {
+      background: linear-gradient(90deg, #ffcb74, #ff7744);
+      border: none;
+      border-radius: 5px;
+      padding: 12px 20px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .contact-container button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(255, 119, 68, 0.6);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 500px) {
+      .contact-container {
+        width: 90%;
+      }
+
+      .contact-container h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="contact-container">
+    <h1>Contact Us</h1>
+    <form id="contactForm">
+      <input type="text" id="name" name="name" placeholder="Your Name" required>
+      <input type="email" id="email" name="email" placeholder="Your Email" required>
+      <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+</html>
