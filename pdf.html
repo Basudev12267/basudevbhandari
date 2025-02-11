@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .image-preview {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .image-preview img {
+            max-width: 150px;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .footer {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer span {
+            color: #007bff;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Convert Images to PDF</h1>
+        <input type="file" id="imageInput" accept="image/*" multiple onchange="previewImages()">
+        
+        <div class="image-preview" id="preview"></div>
+
+        <button onclick="saveImages()">Save Images</button>
+        <button onclick="convertToPDF()">Convert to PDF</button>
+    </div>
+    <div class="footer">
+        Made with ❤️ by <span>Basudev Bhandari</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        let imageList = [];  // To store the images
+
+        function previewImages() {
+            const files = document.getElementById("imageInput").files;
+            const previewContainer = document.getElementById("preview");
+            previewContainer.innerHTML = '';  // Clear the preview area
+
+            if (files.length === 0) {
+                return;
+            }
+
+            // Preview all selected images
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imgElement = document.createElement("img");
+                    imgElement.src = e.target.result;
+                    previewContainer.appendChild(imgElement);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveImages() {
+            const files = document.getElementById("imageInput").files;
+            if (files.length === 0) {
+                alert("Please select images first.");
+                return;
+            }
+
+            const reader = new FileReader();
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                reader.onload = function (e) {
+                    imageList.push(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+
+            alert("Images saved successfully!");
+        }
+
+        function convertToPDF() {
+            const { jsPDF } = window.jspdf;
+            if (imageList.length === 0) {
+                alert("Please save some images first.");
+                return;
+            }
+
+            const doc = new jsPDF();
+
+            imageList.forEach((imgData, index) => {
+                if (index > 0) doc.addPage(); // Add a new page for each image
+                doc.addImage(imgData, 'JPEG', 0, 0, 210, 297); // A4 size
+            });
+
+            doc.save("basudevuniverse.pdf");  // The name of the saved PDF file
+        }
+    </script>
+</body>
+</html>
