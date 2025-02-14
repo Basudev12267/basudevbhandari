@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.9.0/math.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { text-align: center; background: linear-gradient(120deg, #1e3c72, #2a5298); color: white; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: rgba(255,255,255,0.1); padding: 20px; box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 10px; }
+        h2 { margin-bottom: 15px; }
+        select, input, button { padding: 10px; border-radius: 5px; border: none; font-size: 16px; }
+        select, input { width: 70%; text-transform: lowercase; }
+        button { background: #ff9800; color: white; cursor: pointer; }
+        button:hover { background: #e68900; }
+        .canvas-container { display: flex; justify-content: center; margin-top: 10px; }
+        canvas { background: white; border: 2px solid #444; cursor: grab; }
+        footer { margin-top: 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Advanced Graphing Calculator</h2>
+
+        <label for="category">Select Function Category:</label>
+        <select id="category" onchange="updatePlaceholder()">
+            <option value="trigonometric">Trigonometric</option>
+            <option value="logarithmic">Logarithmic</option>
+            <option value="exponential">Exponential</option>
+            <option value="polynomial">Polynomial</option>
+            <option value="misc">Other Functions</option>
+        </select>
+
+        <input type="text" id="functionInput" placeholder="Enter function">
+        <button onclick="plotGraph()">Plot</button>
+
+        <div class="canvas-container">
+            <canvas id="graphCanvas"></canvas>
+        </div>
+    </div>
+
+    <footer>Made with ❤️ by Basudev Bhandari</footer>
+
+    <script>
+        let canvas = document.getElementById("graphCanvas");
+        let ctx = canvas.getContext("2d");
+
+        canvas.width = 600;
+        canvas.height = 500;
+        let scale = 25;
+        let offsetX = canvas.width / 2;
+        let offsetY = canvas.height / 2;
+        let currentFunction = "";
+
+        function updatePlaceholder() {
+            let category = document.getElementById("category").value;
+            let placeholderText = {
+                "trigonometric": "e.g., sin(x), cos(x), tan(x), sec(x), csc(x), cot(x), sin⁻¹(x)",
+                "logarithmic": "e.g., log(x), ln(x), log2(x), log10(x)",
+                "exponential": "e.g., e^x, 2^x, 10^x",
+                "polynomial": "e.g., x^2, x^3, x^4 + 3x - 5",
+                "misc": "e.g., sqrt(x), abs(x), round(x)"
+            };
+            document.getElementById("functionInput").placeholder = placeholderText[category];
+        }
+
+        function plotGraph() {
+            let expression = document.getElementById("functionInput").value.trim().toLowerCase();
+            if (!expression) { alert("Please enter a function!"); return; }
+
+            expression = fixMathExpression(expression);
+
+            // Reset previous graph
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrid();
+            drawAxes();
+
+            currentFunction = expression;
+            drawFunction(expression);
+        }
+
+        function fixMathExpression(expression) {
+            return expression
+                .replace(/sin⁻¹/g, "asin")
+                .replace(/cos⁻¹/g, "acos")
+                .replace(/tan⁻¹/g, "atan")
+                .replace(/csc/g, "1/sin")
+                .replace(/sec/g, "1/cos")
+                .replace(/cot/g, "1/tan")
+                .replace(/log/g, "log10")
+                .replace(/ln/g, "log")
+                .replace(/\^/g, "**");
+        }
+
+        function drawFunction(expression) {
+            ctx.strokeStyle = "red";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let pixelX = 0; pixelX < canvas.width; pixelX++) {
+                let mathX = (pixelX - offsetX) / scale;
+                let mathY;
+                try { mathY = math.evaluate(expression, { x: mathX }); } 
+                catch (err) { alert("Invalid function!"); return; }
+                let pixelY = offsetY - mathY * scale;
+                if (pixelX === 0) ctx.moveTo(pixelX, pixelY);
+                else ctx.lineTo(pixelX, pixelY);
+            }
+            ctx.stroke();
+        }
+
+        function drawGrid() {
+            ctx.strokeStyle = "#ddd";
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += scale) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += scale) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+
+        function drawAxes() {
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(offsetX, 0);
+            ctx.lineTo(offsetX, canvas.height);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(0, offsetY);
+            ctx.lineTo(canvas.width, offsetY);
+            ctx.stroke();
+
+            ctx.fillStyle = "black";
+            ctx.font = "14px Arial";
+            for (let x = -offsetX; x < offsetX; x += scale) {
+                let mathX = (x / scale).toFixed(1);
+                ctx.fillText(mathX, x + offsetX, offsetY + 15);
+            }
+            for (let y = -offsetY; y < offsetY; y += scale) {
+                let mathY = (-y / scale).toFixed(1);
+                ctx.fillText(mathY, offsetX + 5, y + offsetY);
+            }
+        }
+
+        canvas.addEventListener("wheel", (e) => {
+            scale += e.deltaY > 0 ? -5 : 5;
+            if (scale < 10) scale = 10;
+            if (scale > 100) scale = 100;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrid();
+            drawAxes();
+            drawFunction(currentFunction);
+        });
+
+        drawGrid();
+        drawAxes();
+    </script>
+
+</body>
+</html>
